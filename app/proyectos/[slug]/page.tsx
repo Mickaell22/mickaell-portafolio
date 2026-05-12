@@ -1,7 +1,7 @@
 import { notFound } from "next/navigation"
 import type { Metadata } from "next"
 import Link from "next/link"
-import { ArrowLeft, ExternalLink, Github } from "lucide-react"
+import { ArrowLeft, ExternalLink, GitFork } from "lucide-react"
 import { serialize } from "next-mdx-remote/serialize"
 import { MdxContent } from "@/components/content/MdxContent"
 import { getAllProjects, getProjectBySlug } from "@/lib/content/projects"
@@ -88,7 +88,7 @@ export default async function ProyectoPage({ params }: Props) {
               rel="noopener noreferrer"
               className="inline-flex items-center gap-2 rounded-md border border-border px-4 py-2 text-sm font-medium text-foreground transition-colors hover:bg-muted"
             >
-              <Github size={14} />
+              <GitFork size={14} />
               Ver código
             </a>
           )}

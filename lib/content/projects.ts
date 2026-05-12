@@ -30,7 +30,3 @@ export function getFeaturedProjects(): Project[] {
 export function getProjectBySlug(slug: string): Project | undefined {
   return getAllProjects().find((p) => p.slug === slug)
 }
-
-export function getProjectsByArea(area: Project["area"]): Project[] {
-  return getAllProjects().filter((p) => p.area === area)
-}
