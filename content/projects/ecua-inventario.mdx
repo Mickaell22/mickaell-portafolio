@@ -1,0 +1,50 @@
+---
+title: EcuaInventario
+area: fullstack
+description: SaaS multitenancy para negocios gastronómicos con chat IA que interpreta texto, audio y fotos de facturas para registrar movimientos de inventario sin errores.
+stack: ["Django", "Flutter", "PostgreSQL", "Claude AI", "Whisper"]
+github: ""
+demo: ""
+image: ""
+featured: true
+date: "2026-05-12"
+role: Co-desarrollador
+---
+
+## Contexto
+
+Sistema desarrollado junto a mi jefe para pequeños negocios de comida en Ecuador. El problema central: los dueños de negocios no llevan inventario porque el proceso manual es tedioso y propenso a errores. La solución: un chat IA que entiende cómo habla la gente y registra los movimientos por ellos.
+
+## El diferenciador
+
+El chat no escribe nada en la base de datos sin confirmación del usuario. El flujo es:
+
+1. Usuario envía texto, audio o foto de una factura
+2. La IA interpreta y devuelve una propuesta en lenguaje natural
+3. El usuario confirma o corrige
+4. El sistema registra
+
+Esto elimina el miedo a "romper algo" que tienen los usuarios no técnicos.
+
+## Stack técnico
+
+**Backend:** Django 5 + Django REST Framework + PostgreSQL 16. Autenticación con JWT (SimpleJWT). Multitenancy por negocio — cada tenant tiene sus datos aislados. Deploy en Railway con Gunicorn.
+
+**IA:** Claude Haiku (Anthropic) para interpretar texto y fotos de facturas. Whisper (OpenAI) para transcripción de audio.
+
+**Frontend móvil:** Flutter con Riverpod para estado, go_router para navegación y Dio con interceptor JWT para el HTTP. Arquitectura feature-first.
+
+## Arquitectura backend
+
+```
+apps/autenticacion/   — usuario custom, JWT, registro, perfil
+apps/negocios/        — modelo Negocio (tenant)
+apps/inventario/      — producto, movimiento de stock
+apps/proveedores/     — proveedor CRUD
+apps/dashboard/       — resumen diario con alertas
+apps/chat/            — integración Anthropic + Whisper
+```
+
+## Estado
+
+En desarrollo activo. Casi en producción.
