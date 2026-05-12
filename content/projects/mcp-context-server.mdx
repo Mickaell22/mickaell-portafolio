@@ -1,0 +1,40 @@
+---
+title: mcp-context-server
+area: fullstack
+description: Servidor MCP propio para indexar repositorios de GitHub y consultarlos con IA por lenguaje natural. Reduce consumo de tokens y acelera el desarrollo con contexto comprimido.
+stack: ["Python", "PostgreSQL", "DeepSeek", "Tailscale", "GitPython"]
+github: "https://github.com/Mickaell22/mcp-context-server"
+demo: ""
+image: ""
+featured: true
+date: "2026-05-12"
+role: Proyecto propio
+---
+
+## Contexto
+
+Trabajando con múltiples repositorios simultáneamente, el contexto de los modelos de IA se llenaba rápido y el costo de tokens era alto. Construí mi propio servidor MCP que indexa el código y devuelve solo el contexto relevante a cada consulta.
+
+## Cómo funciona
+
+1. El servidor clona e indexa repositorios de GitHub (públicos y privados)
+2. Cada archivo se fragmenta y se almacena con embeddings en PostgreSQL
+3. Cuando un agente hace una consulta, el servidor busca los fragmentos más relevantes
+4. DeepSeek Flash actúa como preprocesador para comprimir y filtrar el contexto antes de enviarlo al modelo principal
+5. El resultado: el modelo recibe solo lo que necesita, sin ruido
+
+## Seguridad
+
+El servidor opera exclusivamente a través de Tailscale — no tiene exposición pública. Las rutas permitidas están definidas en una whitelist en PostgreSQL. Solo ejecuta `git clone` como excepción al aislamiento de filesystem.
+
+## Uso real
+
+Este servidor se usó durante la construcción de este mismo portafolio para analizar los 58 repositorios de GitHub y clasificarlos. También lo distribuyo para que otros desarrolladores lo usen en sus proyectos.
+
+## Stack técnico
+
+Python para el servidor MCP. PostgreSQL para el índice de fragmentos y la whitelist de rutas. DeepSeek Flash como preprocesador. GitPython para clonar repos. Tailscale para acceso seguro.
+
+## Estado
+
+Activo. En uso diario y en distribución pública.
