@@ -1,26 +1,16 @@
-"use client"
-
-import { Printer } from "lucide-react"
+import { Download } from "lucide-react"
 
 export default function CVPage() {
   return (
     <>
-      <style>{`
-        @media print {
-          .no-print { display: none !important; }
-          body { background: white; }
-          @page { margin: 1.5cm 2cm; }
-        }
-      `}</style>
-
-      <div className="no-print fixed right-6 top-6 z-50">
-        <button
-          onClick={() => window.print()}
+      <div className="fixed right-6 top-6 z-50">
+        <a
+          href="/cv/download"
           className="inline-flex items-center gap-2 rounded-md bg-zinc-900 px-4 py-2 text-sm font-medium text-white shadow hover:bg-zinc-700 transition-colors"
         >
-          <Printer size={14} />
+          <Download size={14} />
           Descargar PDF
-        </button>
+        </a>
       </div>
 
       <main className="mx-auto max-w-[780px] px-10 py-12 text-[13px] leading-relaxed text-zinc-800 font-sans">
