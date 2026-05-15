@@ -2,8 +2,7 @@ import { notFound } from "next/navigation"
 import type { Metadata } from "next"
 import Link from "next/link"
 import { ArrowLeft, ExternalLink, GitFork } from "lucide-react"
-import { serialize } from "next-mdx-remote/serialize"
-import { MdxContent } from "@/components/content/MdxContent"
+import { MDXRemote } from "next-mdx-remote/rsc"
 import { getAllProjects, getProjectBySlug } from "@/lib/content/projects"
 
 const areaLabel: Record<string, string> = {
@@ -34,8 +33,6 @@ export default async function ProyectoPage({ params }: Props) {
   const { slug } = await params
   const project = getProjectBySlug(slug)
   if (!project) notFound()
-
-  const source = await serialize(project.content)
 
   return (
     <div className="mx-auto max-w-3xl px-6 py-16">
@@ -97,7 +94,9 @@ export default async function ProyectoPage({ params }: Props) {
 
       <hr className="mb-10 border-border/50" />
 
-      <MdxContent source={source} />
+      <div className="prose prose-zinc dark:prose-invert max-w-none prose-headings:font-semibold prose-headings:tracking-tight prose-a:text-foreground prose-a:underline-offset-4 prose-code:rounded prose-code:bg-muted prose-code:px-1.5 prose-code:py-0.5 prose-code:text-sm prose-code:before:content-none prose-code:after:content-none prose-pre:bg-muted prose-pre:border prose-pre:border-border">
+        <MDXRemote source={project.content} />
+      </div>
     </div>
   )
 }
