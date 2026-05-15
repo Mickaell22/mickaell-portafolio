@@ -13,7 +13,7 @@ export default function CVPage() {
         </a>
       </div>
 
-      <main className="mx-auto max-w-[780px] px-10 py-12 text-[13px] leading-relaxed text-zinc-800 font-sans">
+      <main className="min-h-screen bg-white mx-auto max-w-[780px] px-10 py-12 text-[13px] leading-relaxed text-zinc-800 font-sans">
 
         {/* Cabecera */}
         <header className="mb-6">
