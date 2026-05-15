@@ -23,9 +23,23 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
   const { slug } = await params
   const project = getProjectBySlug(slug)
   if (!project) return {}
+  const ogImage = project.image || "/og.png"
   return {
     title: project.title,
     description: project.description,
+    alternates: { canonical: `/proyectos/${slug}` },
+    openGraph: {
+      title: project.title,
+      description: project.description,
+      url: `/proyectos/${slug}`,
+      images: [{ url: ogImage, width: 1200, height: 630, alt: project.title }],
+    },
+    twitter: {
+      card: "summary_large_image",
+      title: project.title,
+      description: project.description,
+      images: [ogImage],
+    },
   }
 }
 

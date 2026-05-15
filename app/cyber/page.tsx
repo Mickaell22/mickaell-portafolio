@@ -1,3 +1,11 @@
+import type { Metadata } from "next"
+
+export const metadata: Metadata = {
+  title: "Ciberseguridad",
+  description: "Writeups y laboratorios de pentesting de Mickaell Morán.",
+  alternates: { canonical: "/cyber" },
+}
+
 export default function CyberPage() {
   return (
     <main className="mx-auto flex max-w-5xl flex-col items-center justify-center px-6 py-32 text-center">
