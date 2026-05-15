@@ -100,7 +100,7 @@ export default function SobreMiPage() {
         </h2>
         <div className="space-y-4">
           {skillGroups.map((group) => (
-            <div key={group.label} className="flex gap-6">
+            <div key={group.label} className="flex flex-col gap-2 sm:flex-row sm:gap-6">
               <span className="w-28 shrink-0 text-sm text-muted-foreground">
                 {group.label}
               </span>
