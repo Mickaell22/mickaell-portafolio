@@ -129,3 +129,16 @@
     @apply font-sans;
   }
 }
+
+/* prose-pre:bg-muted usa fondo claro, pero prose-zinc deja --tw-prose-pre-code en zinc-200 (casi blanco).
+   Estas reglas fuerzan contraste correcto y eliminan el doble fondo en code dentro de pre. */
+.prose pre {
+  color: var(--foreground);
+}
+
+.prose pre code {
+  color: inherit;
+  background-color: transparent;
+  padding: 0;
+  border-radius: 0;
+}
