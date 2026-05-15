@@ -1,4 +1,5 @@
 import type { Metadata } from "next"
+import Image from "next/image"
 import { experiences, education, skillGroups, bio } from "@/lib/content/about"
 
 export const metadata: Metadata = {
@@ -10,11 +11,20 @@ export const metadata: Metadata = {
 export default function SobreMiPage() {
   return (
     <div className="mx-auto max-w-3xl px-6 py-16">
-      <header className="mb-16">
-        <h1 className="text-3xl font-bold tracking-tight">Mickaell Morán</h1>
-        <p className="mt-4 max-w-xl text-base leading-relaxed text-muted-foreground">
-          {bio}
-        </p>
+      <header className="mb-16 flex items-start gap-6">
+        <Image
+          src="/mickaell.png"
+          alt="Mickaell Morán"
+          width={88}
+          height={88}
+          className="rounded-full object-cover object-top shrink-0"
+        />
+        <div>
+          <h1 className="text-3xl font-bold tracking-tight">Mickaell Morán</h1>
+          <p className="mt-4 max-w-xl text-base leading-relaxed text-muted-foreground">
+            {bio}
+          </p>
+        </div>
       </header>
 
       <section className="mb-16">
