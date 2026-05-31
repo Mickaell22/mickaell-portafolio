@@ -1,5 +1,6 @@
 import Link from "next/link"
 import { Mail } from "lucide-react"
+import { useTranslations } from "next-intl"
 
 const socials = [
   {
@@ -32,11 +33,13 @@ const socials = [
 ]
 
 export function Footer() {
+  const t = useTranslations("footer")
+
   return (
     <footer className="mt-auto border-t border-border/50">
       <div className="mx-auto flex max-w-5xl flex-col items-center justify-between gap-4 px-6 py-8 sm:flex-row">
         <p className="text-xs text-muted-foreground">
-          Mickaell Morán · Guayaquil, Ecuador
+          {t("location")}
         </p>
         <ul className="flex items-center gap-5">
           {socials.map(({ href, label, icon }) => (
@@ -60,7 +63,7 @@ export function Footer() {
               className="flex items-center gap-1.5 text-xs text-muted-foreground transition-colors hover:text-foreground"
             >
               <Mail size={14} aria-hidden="true" />
-              <span>Email</span>
+              <span>{t("email")}</span>
             </a>
           </li>
         </ul>

@@ -1,0 +1,50 @@
+---
+title: EcuaInventario
+area: fullstack
+description: Multitenant SaaS for restaurant businesses with an AI chat that interprets text, audio and invoice photos to log inventory movements without errors.
+stack: ["Django", "Flutter", "PostgreSQL", "Claude AI", "Whisper"]
+github: ""
+demo: ""
+image: ""
+featured: true
+date: "2026-05-12"
+role: Co-desarrollador
+---
+
+## Context
+
+A system built together with my boss for small food businesses in Ecuador. The core problem: business owners don't track inventory because the manual process is tedious and error-prone. The solution: an AI chat that understands how people actually speak and logs the movements for them.
+
+## The differentiator
+
+The chat never writes anything to the database without user confirmation. The flow is:
+
+1. The user sends text, audio or a photo of an invoice
+2. The AI interprets it and returns a proposal in natural language
+3. The user confirms or corrects
+4. The system records it
+
+This removes the fear of "breaking something" that non-technical users have.
+
+## Tech stack
+
+**Backend:** Django 5 + Django REST Framework + PostgreSQL 16. Authentication with JWT (SimpleJWT). Per-business multitenancy — each tenant's data is isolated. Deployed on Railway with Gunicorn.
+
+**AI:** Claude Haiku (Anthropic) to interpret text and invoice photos. Whisper (OpenAI) for audio transcription.
+
+**Mobile frontend:** Flutter with Riverpod for state, go_router for navigation and Dio with a JWT interceptor for HTTP. Feature-first architecture.
+
+## Backend architecture
+
+```
+apps/autenticacion/   — custom user, JWT, registration, profile
+apps/negocios/        — Business model (tenant)
+apps/inventario/      — product, stock movement
+apps/proveedores/     — supplier CRUD
+apps/dashboard/       — daily summary with alerts
+apps/chat/            — Anthropic + Whisper integration
+```
+
+## Status
+
+In active development. Almost in production.

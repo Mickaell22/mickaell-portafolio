@@ -1,4 +1,6 @@
 import { Document, Page, View, Text, StyleSheet } from "@react-pdf/renderer"
+import { getCvContent } from "./content"
+import { routing, type Locale } from "../../i18n/routing"
 
 const c = {
   black: "#09090b",
@@ -180,178 +182,107 @@ function Bullet({ text }: { text: string }) {
   )
 }
 
-export function CvDocument() {
+export function CvDocument({
+  locale = routing.defaultLocale,
+}: {
+  locale?: Locale
+}) {
+  const cv = getCvContent(locale)
+
   return (
-    <Document title="CV — Mickaell Morán Vera" author="Mickaell Morán Vera">
+    <Document title={`CV — ${cv.name}`} author={cv.name}>
       <Page size="A4" style={s.page}>
 
         {/* Cabecera */}
-        <Text style={s.name}>Mickaell Morán Vera</Text>
-        <Text style={s.subtitle}>Desarrollador Fullstack</Text>
+        <Text style={s.name}>{cv.name}</Text>
+        <Text style={s.subtitle}>{cv.title}</Text>
         <View style={s.contactRow}>
-          <Text style={s.contactItem}>mickaelmoranvera03@gmail.com</Text>
-          <Text style={s.contactItem}>+593 983777036</Text>
-          <Text style={s.contactItem}>Guayaquil, Ecuador</Text>
-          <Text style={s.contactItem}>github.com/Mickaell22</Text>
-          <Text style={s.contactItem}>linkedin.com/in/mickaell-moran-vera-ba421a2a3</Text>
-          <Text style={s.contactItem}>mickaell.novamicktools.com</Text>
+          {cv.contacts.map((item) => (
+            <Text key={item} style={s.contactItem}>{item}</Text>
+          ))}
         </View>
 
         <View style={s.divider} />
 
         {/* Perfil */}
         <View style={s.section}>
-          <Text style={s.sectionTitle}>PERFIL</Text>
-          <Text style={s.bodyText}>
-            Desarrollador fullstack freelance con proyectos reales en producción: SaaS gastronómico con IA multitenancy, sistema clínico con cliente pagado, simulador de exámenes en uso activo en la Universidad de Guayaquil. Experiencia en el ciclo completo — backend, frontend, mobile, deploy y automatización. Estudiante de 9no semestre de Ingeniería de Software en la Universidad de Guayaquil.
-          </Text>
+          <Text style={s.sectionTitle}>{cv.labels.profile.toUpperCase()}</Text>
+          <Text style={s.bodyText}>{cv.profile}</Text>
         </View>
 
         {/* Habilidades */}
         <View style={s.section}>
-          <Text style={s.sectionTitle}>HABILIDADES TECNICAS</Text>
-          <View style={s.skillRow}>
-            <Text style={s.skillLabel}>Backend</Text>
-            <Text style={s.skillValue}>Python, Django, FastAPI, Node.js, Express, C#, Java</Text>
-          </View>
-          <View style={s.skillRow}>
-            <Text style={s.skillLabel}>Frontend</Text>
-            <Text style={s.skillValue}>React, Next.js, TypeScript, Tailwind CSS, Vite</Text>
-          </View>
-          <View style={s.skillRow}>
-            <Text style={s.skillLabel}>Mobile</Text>
-            <Text style={s.skillValue}>Flutter, Dart, Riverpod, Firebase</Text>
-          </View>
-          <View style={s.skillRow}>
-            <Text style={s.skillLabel}>Bases de datos</Text>
-            <Text style={s.skillValue}>PostgreSQL, SQLAlchemy, Firebase Firestore, MySQL</Text>
-          </View>
-          <View style={s.skillRow}>
-            <Text style={s.skillLabel}>DevOps / Tools</Text>
-            <Text style={s.skillValue}>Git, Docker, Linux, Railway, VPS, Cloudinary</Text>
-          </View>
-          <View style={s.skillRow}>
-            <Text style={s.skillLabel}>Ciberseguridad</Text>
-            <Text style={s.skillValue}>Kali Linux, Metasploit, Nmap, Wireshark</Text>
-          </View>
+          <Text style={s.sectionTitle}>{cv.labels.skills.toUpperCase()}</Text>
+          {cv.skills.map(([label, value]) => (
+            <View key={label} style={s.skillRow}>
+              <Text style={s.skillLabel}>{label}</Text>
+              <Text style={s.skillValue}>{value}</Text>
+            </View>
+          ))}
         </View>
 
         {/* Experiencia */}
         <View style={s.section}>
-          <Text style={s.sectionTitle}>EXPERIENCIA</Text>
-
-          <View style={s.expBlock}>
-            <View style={s.expHeader}>
-              <Text style={s.expCompany}>EcuaInventario</Text>
-              <Text style={s.expPeriod}>2024 — actual</Text>
+          <Text style={s.sectionTitle}>{cv.labels.experience.toUpperCase()}</Text>
+          {cv.experiences.map((exp) => (
+            <View key={exp.company} style={s.expBlock}>
+              <View style={s.expHeader}>
+                <Text style={s.expCompany}>{exp.company}</Text>
+                <Text style={s.expPeriod}>{exp.period}</Text>
+              </View>
+              <Text style={s.expRole}>{exp.role}</Text>
+              {exp.bullets.map((b) => (
+                <Bullet key={b} text={b} />
+              ))}
             </View>
-            <Text style={s.expRole}>Co-fundador · Desarrollador fullstack · Guayaquil</Text>
-            <Bullet text="SaaS gastronómico multitenancy con IA integrada, co-desarrollado con socio empresarial." />
-            <Bullet text="Backend en Django 5 + DRF + PostgreSQL con arquitectura multitenancy — cada tenant con datos completamente aislados." />
-            <Bullet text="Chat IA que interpreta texto, audio y fotos de facturas usando Claude Haiku (Anthropic) + Whisper (OpenAI)." />
-            <Bullet text="App móvil en Flutter + Riverpod para gestión de inventario y pedidos en tiempo real." />
-          </View>
-
-          <View style={s.expBlock}>
-            <View style={s.expHeader}>
-              <Text style={s.expCompany}>Freelance</Text>
-              <Text style={s.expPeriod}>2023 — actual</Text>
-            </View>
-            <Text style={s.expRole}>Desarrollador fullstack · Remoto, Guayaquil</Text>
-            <Bullet text="Centro Médico Tía Glenda: sistema clínico integral con 190+ componentes en React + MUI. Cliente pagado, en uso real." />
-            <Bullet text="Facturador: sistema de facturación y gestión de pedidos propio en producción en novamicktools.com (FastAPI + React + PostgreSQL)." />
-            <Bullet text="SimuladorPreguntas: anticheating, roles admin/estudiante, exportación XML/Excel. En producción en la Universidad de Guayaquil." />
-          </View>
-
-          <View style={s.expBlock}>
-            <View style={s.expHeader}>
-              <Text style={s.expCompany}>Área de Nivelación — Universidad de Guayaquil</Text>
-              <Text style={s.expPeriod}>2025 · 6 meses</Text>
-            </View>
-            <Text style={s.expRole}>Practicante · Desarrollo de software</Text>
-            <Bullet text="Lideré el desarrollo completo del SimuladorPreguntas: frontend, backend, pruebas y deploy en VPS institucional." />
-            <Bullet text="Script de renombrado masivo: procesé en 5 minutos lo que tomaba una tarde completa por grupo (70+ archivos)." />
-            <Bullet text="Script de red DHCP: automaticé el reset de conectividad, eliminando la dependencia de soporte técnico para el área." />
-          </View>
+          ))}
         </View>
 
         {/* Proyectos */}
         <View style={s.section}>
-          <Text style={s.sectionTitle}>PROYECTOS DESTACADOS</Text>
-
-          <View style={s.projectBlock}>
-            <View style={s.projectHeader}>
-              <Text style={s.projectName}>mcp-context-server</Text>
-              <Text style={s.projectLink}>github.com/Mickaell22/mcp-context-server</Text>
+          <Text style={s.sectionTitle}>{cv.labels.projects.toUpperCase()}</Text>
+          {cv.projects.map((p) => (
+            <View key={p.name} style={s.projectBlock}>
+              <View style={s.projectHeader}>
+                <Text style={s.projectName}>{p.name}</Text>
+                {p.link ? <Text style={s.projectLink}>{p.link}</Text> : null}
+              </View>
+              <Text style={s.projectDesc}>{p.desc}</Text>
+              <Text style={s.projectStack}>{p.stack}</Text>
             </View>
-            <Text style={s.projectDesc}>Servidor MCP propio que indexa repositorios de GitHub con embeddings en PostgreSQL y los consulta por lenguaje natural. DeepSeek Flash como preprocesador. Operación segura vía Tailscale. En distribución pública.</Text>
-            <Text style={s.projectStack}>Python · PostgreSQL · DeepSeek · Tailscale</Text>
-          </View>
-
-          <View style={s.projectBlock}>
-            <View style={s.projectHeader}>
-              <Text style={s.projectName}>SimuladorPreguntas</Text>
-              <Text style={s.projectLink}>github.com/Mickaell22/SimuladorPreguntasBackend</Text>
-            </View>
-            <Text style={s.projectDesc}>Plataforma de simulacro de exámenes en producción en la Universidad de Guayaquil. Roles admin/estudiante, anticheating, importación masiva desde Excel/XML, historial de resultados.</Text>
-            <Text style={s.projectStack}>Node.js · Express · PostgreSQL · React · Docker</Text>
-          </View>
-
-          <View style={s.projectBlock}>
-            <View style={s.projectHeader}>
-              <Text style={s.projectName}>Facturador</Text>
-              <Text style={s.projectLink}>novamicktools.com</Text>
-            </View>
-            <Text style={s.projectDesc}>Sistema de facturación, pedidos y estadísticas propio en uso activo. Soft delete en todas las entidades, imágenes en Cloudinary, panel de ingresos por período.</Text>
-            <Text style={s.projectStack}>FastAPI · React · PostgreSQL · Cloudinary</Text>
-          </View>
-
-          <View style={s.projectBlock}>
-            <View style={s.projectHeader}>
-              <Text style={s.projectName}>EcuaInventario</Text>
-            </View>
-            <Text style={s.projectDesc}>SaaS gastronómico multitenancy con chat IA para registrar movimientos de inventario por texto, audio y foto de factura. Casi en producción.</Text>
-            <Text style={s.projectStack}>Django · Flutter · PostgreSQL · Claude API · Whisper</Text>
-          </View>
+          ))}
         </View>
 
         {/* Educación + Certificaciones */}
         <View style={s.twoCol}>
           <View style={s.col}>
-            <Text style={s.sectionTitle}>EDUCACION</Text>
-            <View style={s.entryBlock}>
-              <View style={s.entryHeader}>
-                <Text style={s.entryTitle}>Ingeniería de Software</Text>
-                <Text style={s.entryPeriod}>2021 — actual</Text>
+            <Text style={s.sectionTitle}>{cv.labels.education.toUpperCase()}</Text>
+            {cv.education.map((edu) => (
+              <View key={edu.degree} style={s.entryBlock}>
+                <View style={s.entryHeader}>
+                  <Text style={s.entryTitle}>{edu.degree}</Text>
+                  <Text style={s.entryPeriod}>{edu.period}</Text>
+                </View>
+                <Text style={s.entrySub}>{edu.institution}</Text>
               </View>
-              <Text style={s.entrySub}>Universidad de Guayaquil · 9no semestre</Text>
-            </View>
-            <View style={s.entryBlock}>
-              <View style={s.entryHeader}>
-                <Text style={s.entryTitle}>Bachiller en Ciencias</Text>
-                <Text style={s.entryPeriod}>2015 — 2020</Text>
-              </View>
-              <Text style={s.entrySub}>Unidad Educativa Leonidas Gracia</Text>
-            </View>
+            ))}
           </View>
 
           <View style={s.colLast}>
-            <Text style={s.sectionTitle}>CERTIFICACIONES</Text>
-            <View style={s.entryBlock}>
-              <Text style={s.entryTitle}>Certified Ethical Hacker (CEH)</Text>
-              <Text style={s.entrySub}>Hacker Mentor · Marzo 2023</Text>
-            </View>
-            <View style={s.entryBlock}>
-              <Text style={s.entryTitle}>Google Ciberseguridad</Text>
-              <Text style={s.entrySub}>Coursera · Foundations completado, 2025</Text>
-            </View>
+            <Text style={s.sectionTitle}>{cv.labels.certifications.toUpperCase()}</Text>
+            {cv.certifications.map((cert) => (
+              <View key={cert.name} style={s.entryBlock}>
+                <Text style={s.entryTitle}>{cert.name}</Text>
+                <Text style={s.entrySub}>{cert.sub}</Text>
+              </View>
+            ))}
           </View>
         </View>
 
         {/* Idiomas */}
         <View>
-          <Text style={s.sectionTitle}>IDIOMAS</Text>
-          <Text style={s.bodyText}>Español: Nativo · Inglés: Intermedio (lectura avanzada)</Text>
+          <Text style={s.sectionTitle}>{cv.labels.languages.toUpperCase()}</Text>
+          <Text style={s.bodyText}>{cv.languages}</Text>
         </View>
 
       </Page>

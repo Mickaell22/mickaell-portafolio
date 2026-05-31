@@ -6,7 +6,8 @@
     "dev": "next dev",
     "build": "next build",
     "start": "next start",
-    "lint": "eslint"
+    "lint": "eslint",
+    "generate:cv": "tsx scripts/generate-cv.tsx"
   },
   "dependencies": {
     "@base-ui/react": "^1.4.1",
@@ -17,6 +18,7 @@
     "gray-matter": "^4.0.3",
     "lucide-react": "^1.14.0",
     "next": "16.2.6",
+    "next-intl": "^4.13.0",
     "next-mdx-remote": "^6.0.0",
     "next-themes": "^0.4.6",
     "react": "19.2.4",
@@ -38,6 +40,7 @@
     "eslint": "^9",
     "eslint-config-next": "16.2.6",
     "tailwindcss": "^4",
+    "tsx": "^4.22.4",
     "typescript": "^5"
   }
 }

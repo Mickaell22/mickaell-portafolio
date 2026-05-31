@@ -1,0 +1,38 @@
+---
+title: SimuladorPreguntas
+area: fullstack
+description: Exam simulation platform with admin and student roles, anti-cheating, results history and XML/Excel export. Deployed at the University of Guayaquil.
+stack: ["Node.js", "Express", "PostgreSQL", "React", "Docker"]
+github: "https://github.com/Mickaell22/SimuladorPreguntasBackend"
+demo: ""
+image: ""
+featured: true
+date: "2026-04-08"
+role: Proyecto propio
+---
+
+## Context
+
+A module requested by my university so students could practice with exam simulations. It ended up deployed and in real use within the institution.
+
+## Features
+
+- **Student role:** simulations by subject, results history, profile with statistics
+- **Admin role:** question management, bulk import from Excel and XML, control panel
+- **Anti-cheating:** restrictions during the exam to minimize cheating
+- **Export:** results exportable in XML and Excel
+- **Authentication:** JWT with custom middleware
+
+## Tech stack
+
+**Backend:** Node.js with Express. PostgreSQL for the question schema organized into blocks, subjects, units and topics. Docker Compose for the development environment. The project includes `ARCHITECTURE.md` documenting the schema.
+
+**Frontend:** React with Vite. Components for each flow: simulation, history, profile, admin, import.
+
+## What stands out
+
+It's the only project in this portfolio with a confirmed public deployment and active real users. It went from a university assignment to a production tool.
+
+## Status
+
+In production. Deployed at the University of Guayaquil.

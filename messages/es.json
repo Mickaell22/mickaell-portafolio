@@ -1,0 +1,91 @@
+{
+  "nav": {
+    "home": "Inicio",
+    "projects": "Proyectos",
+    "about": "Sobre mí",
+    "cyber": "Cyber"
+  },
+  "theme": {
+    "toggle": "Cambiar tema"
+  },
+  "lang": {
+    "label": "Cambiar idioma",
+    "es": "ES",
+    "en": "EN",
+    "spanish": "Español",
+    "english": "Inglés"
+  },
+  "hero": {
+    "available": "Disponible para proyectos",
+    "role": "Desarrollador Fullstack · Guayaquil, Ecuador",
+    "intro": "Construyo sistemas web y móviles completos — desde la API hasta la interfaz. Trabajo principalmente con <b>Python</b>, <b>React</b> y <b>Flutter</b>. Estudiante de Ingeniería de Software en la Universidad de Guayaquil, noveno semestre.",
+    "viewProjects": "Ver proyectos",
+    "aboutMe": "Sobre mí"
+  },
+  "home": {
+    "ctaTitle": "Trabajemos juntos",
+    "ctaText": "Disponible para proyectos freelance y oportunidades de trabajo. Si tienes algo en mente, escríbeme.",
+    "ctaButton": "Contáctame"
+  },
+  "featured": {
+    "title": "Proyectos destacados",
+    "subtitle": "Selección de lo que he construido",
+    "viewAll": "Ver todos →"
+  },
+  "projects": {
+    "title": "Proyectos",
+    "count": "{count} proyectos — sistemas reales, herramientas propias y trabajo freelance.",
+    "empty": "No hay proyectos en esta área todavía.",
+    "comingSoon": "próximamente",
+    "filters": {
+      "all": "Todos",
+      "fullstack": "Fullstack",
+      "cyber": "Ciberseguridad",
+      "ux": "UX"
+    },
+    "areas": {
+      "fullstack": "Fullstack",
+      "cyber": "Ciberseguridad",
+      "ux": "UX"
+    }
+  },
+  "projectDetail": {
+    "back": "Todos los proyectos",
+    "viewDemo": "Ver demo",
+    "viewCode": "Ver código"
+  },
+  "about": {
+    "experience": "Experiencia",
+    "education": "Educación",
+    "skills": "Skills",
+    "current": "actual"
+  },
+  "cyber": {
+    "badge": "Próximamente",
+    "title": "Ciberseguridad",
+    "text": "Writeups y laboratorios de pentesting. Esta sección está en construcción."
+  },
+  "footer": {
+    "location": "Mickaell Morán · Guayaquil, Ecuador",
+    "email": "Email"
+  },
+  "cv": {
+    "download": "Descargar PDF"
+  },
+  "notFound": {
+    "code": "404",
+    "title": "Página no encontrada",
+    "text": "La ruta que buscas no existe o fue movida.",
+    "back": "Volver al inicio"
+  },
+  "metadata": {
+    "siteTitle": "Mickaell Morán — Desarrollador Fullstack",
+    "siteDescription": "Desarrollador fullstack freelance. Especializado en Python, React y Flutter. Guayaquil, Ecuador.",
+    "projectsTitle": "Proyectos",
+    "projectsDescription": "Proyectos de desarrollo fullstack, ciberseguridad y UX de Mickaell Morán.",
+    "aboutTitle": "Sobre mí",
+    "aboutDescription": "Desarrollador fullstack freelance. Python, React, Flutter. Guayaquil, Ecuador.",
+    "cyberTitle": "Ciberseguridad",
+    "cyberDescription": "Writeups y laboratorios de pentesting de Mickaell Morán."
+  }
+}

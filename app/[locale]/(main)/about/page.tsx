@@ -1,14 +1,36 @@
 import type { Metadata } from "next"
 import Image from "next/image"
-import { experiences, education, skillGroups, bio } from "@/lib/content/about"
+import { getTranslations, setRequestLocale } from "next-intl/server"
+import { getAboutContent } from "@/lib/content/about"
+import type { Locale } from "@/i18n/routing"
 
-export const metadata: Metadata = {
-  title: "Sobre mí",
-  description:
-    "Desarrollador fullstack freelance. Python, React, Flutter. Guayaquil, Ecuador.",
+export async function generateMetadata({
+  params,
+}: {
+  params: Promise<{ locale: Locale }>
+}): Promise<Metadata> {
+  const { locale } = await params
+  const t = await getTranslations({ locale, namespace: "metadata" })
+  return {
+    title: t("aboutTitle"),
+    description: t("aboutDescription"),
+    alternates: {
+      canonical: locale === "es" ? "/sobre-mi" : "/en/about",
+      languages: { es: "/sobre-mi", en: "/en/about" },
+    },
+  }
 }
 
-export default function SobreMiPage() {
+export default async function AboutPage({
+  params,
+}: {
+  params: Promise<{ locale: Locale }>
+}) {
+  const { locale } = await params
+  setRequestLocale(locale)
+  const t = await getTranslations("about")
+  const { bio, experiences, education, skillGroups } = getAboutContent(locale)
+
   return (
     <div className="mx-auto max-w-3xl px-6 py-16">
       <header className="mb-16 flex items-start gap-6">
@@ -29,7 +51,7 @@ export default function SobreMiPage() {
 
       <section className="mb-16">
         <h2 className="mb-8 text-xs font-semibold uppercase tracking-widest text-muted-foreground">
-          Experiencia
+          {t("experience")}
         </h2>
         <div className="space-y-10">
           {experiences.map((exp) => (
@@ -40,7 +62,7 @@ export default function SobreMiPage() {
                     <h3 className="font-semibold text-foreground">{exp.company}</h3>
                     {exp.current && (
                       <span className="rounded-full bg-muted px-2 py-0.5 text-xs text-muted-foreground">
-                        actual
+                        {t("current")}
                       </span>
                     )}
                   </div>
@@ -76,7 +98,7 @@ export default function SobreMiPage() {
 
       <section className="mb-16">
         <h2 className="mb-8 text-xs font-semibold uppercase tracking-widest text-muted-foreground">
-          Educación
+          {t("education")}
         </h2>
         <div className="space-y-6">
           {education.map((edu) => (
@@ -96,7 +118,7 @@ export default function SobreMiPage() {
 
       <section>
         <h2 className="mb-8 text-xs font-semibold uppercase tracking-widest text-muted-foreground">
-          Skills
+          {t("skills")}
         </h2>
         <div className="space-y-4">
           {skillGroups.map((group) => (

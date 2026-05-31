@@ -1,21 +1,24 @@
 "use client"
 
-import Link from "next/link"
-import { usePathname } from "next/navigation"
 import { useTheme } from "next-themes"
+import { useTranslations } from "next-intl"
 import { useEffect, useState } from "react"
 import { Moon, Sun, Menu, X } from "lucide-react"
+import { Link, usePathname } from "@/i18n/navigation"
+import { LanguageSwitcher } from "@/components/layout/LanguageSwitcher"
 import { cn } from "@/lib/utils"
 
 const links = [
-  { href: "/", label: "Inicio" },
-  { href: "/proyectos", label: "Proyectos" },
-  { href: "/sobre-mi", label: "Sobre mí" },
-  { href: "/cyber", label: "Cyber" },
-]
+  { href: "/", key: "home" },
+  { href: "/projects", key: "projects" },
+  { href: "/about", key: "about" },
+  { href: "/cyber", key: "cyber" },
+] as const
 
 export function Navbar() {
   const pathname = usePathname()
+  const t = useTranslations("nav")
+  const tTheme = useTranslations("theme")
   const { theme, setTheme } = useTheme()
   const [mounted, setMounted] = useState(false)
   const [open, setOpen] = useState(false)
@@ -34,7 +37,7 @@ export function Navbar() {
 
         {/* desktop */}
         <ul className="hidden items-center gap-6 md:flex">
-          {links.map(({ href, label }) => (
+          {links.map(({ href, key }) => (
             <li key={href}>
               <Link
                 href={href}
@@ -45,18 +48,20 @@ export function Navbar() {
                     : "text-muted-foreground"
                 )}
               >
-                {label}
+                {t(key)}
               </Link>
             </li>
           ))}
         </ul>
 
         <div className="flex items-center gap-3">
+          <LanguageSwitcher />
+
           {mounted && (
             <button
               onClick={() => setTheme(theme === "dark" ? "light" : "dark")}
               className="rounded-md p-2 text-muted-foreground transition-colors hover:text-foreground"
-              aria-label="Cambiar tema"
+              aria-label={tTheme("toggle")}
             >
               {theme === "dark" ? <Sun size={16} /> : <Moon size={16} />}
             </button>
@@ -77,7 +82,7 @@ export function Navbar() {
       {open && (
         <div className="border-t border-border/50 px-6 py-4 md:hidden">
           <ul className="flex flex-col gap-4">
-            {links.map(({ href, label }) => (
+            {links.map(({ href, key }) => (
               <li key={href}>
                 <Link
                   href={href}
@@ -89,7 +94,7 @@ export function Navbar() {
                       : "text-muted-foreground"
                   )}
                 >
-                  {label}
+                  {t(key)}
                 </Link>
               </li>
             ))}

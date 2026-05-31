@@ -1,37 +1,40 @@
 import { notFound } from "next/navigation"
 import type { Metadata } from "next"
-import Link from "next/link"
 import { ArrowLeft, ExternalLink, GitFork } from "lucide-react"
 import { MDXRemote } from "next-mdx-remote/rsc"
+import { getTranslations, setRequestLocale } from "next-intl/server"
+import { Link } from "@/i18n/navigation"
 import { getAllProjects, getProjectBySlug } from "@/lib/content/projects"
-
-const areaLabel: Record<string, string> = {
-  fullstack: "Fullstack",
-  cyber: "Ciberseguridad",
-  ux: "UX",
-}
+import { routing, type Locale } from "@/i18n/routing"
 
 interface Props {
-  params: Promise<{ slug: string }>
+  params: Promise<{ locale: Locale; slug: string }>
 }
 
-export async function generateStaticParams() {
-  return getAllProjects().map((p) => ({ slug: p.slug }))
+export function generateStaticParams() {
+  return routing.locales.flatMap((locale) =>
+    getAllProjects(locale).map((p) => ({ locale, slug: p.slug }))
+  )
 }
 
 export async function generateMetadata({ params }: Props): Promise<Metadata> {
-  const { slug } = await params
-  const project = getProjectBySlug(slug)
+  const { locale, slug } = await params
+  const project = getProjectBySlug(slug, locale)
   if (!project) return {}
   const ogImage = project.image || "/og.png"
+  const esPath = `/proyectos/${slug}`
+  const enPath = `/en/projects/${slug}`
   return {
     title: project.title,
     description: project.description,
-    alternates: { canonical: `/proyectos/${slug}` },
+    alternates: {
+      canonical: locale === "es" ? esPath : enPath,
+      languages: { es: esPath, en: enPath },
+    },
     openGraph: {
       title: project.title,
       description: project.description,
-      url: `/proyectos/${slug}`,
+      url: locale === "es" ? esPath : enPath,
       images: [{ url: ogImage, width: 1200, height: 630, alt: project.title }],
     },
     twitter: {
@@ -43,24 +46,28 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
   }
 }
 
-export default async function ProyectoPage({ params }: Props) {
-  const { slug } = await params
-  const project = getProjectBySlug(slug)
+export default async function ProjectPage({ params }: Props) {
+  const { locale, slug } = await params
+  setRequestLocale(locale)
+  const project = getProjectBySlug(slug, locale)
   if (!project) notFound()
+
+  const tAreas = await getTranslations("projects.areas")
+  const t = await getTranslations("projectDetail")
 
   return (
     <div className="mx-auto max-w-3xl px-6 py-16">
       <Link
-        href="/proyectos"
+        href="/projects"
         className="mb-10 inline-flex items-center gap-2 text-sm text-muted-foreground transition-colors hover:text-foreground"
       >
         <ArrowLeft size={14} />
-        Todos los proyectos
+        {t("back")}
       </Link>
 
       <header className="mb-10">
         <span className="text-xs text-muted-foreground">
-          {areaLabel[project.area]} · {project.role}
+          {tAreas(project.area)} · {project.role}
         </span>
         <h1 className="mt-2 text-3xl font-bold tracking-tight text-foreground">
           {project.title}
@@ -89,7 +96,7 @@ export default async function ProyectoPage({ params }: Props) {
               className="inline-flex items-center gap-2 rounded-md bg-foreground px-4 py-2 text-sm font-medium text-background transition-opacity hover:opacity-90"
             >
               <ExternalLink size={14} />
-              Ver demo
+              {t("viewDemo")}
             </a>
           )}
           {project.github && (
@@ -100,7 +107,7 @@ export default async function ProyectoPage({ params }: Props) {
               className="inline-flex items-center gap-2 rounded-md border border-border px-4 py-2 text-sm font-medium text-foreground transition-colors hover:bg-muted"
             >
               <GitFork size={14} />
-              Ver código
+              {t("viewCode")}
             </a>
           )}
         </div>

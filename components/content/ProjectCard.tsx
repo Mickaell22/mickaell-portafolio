@@ -1,13 +1,8 @@
-import Link from "next/link"
 import { ArrowUpRight } from "lucide-react"
+import { useTranslations } from "next-intl"
+import { Link } from "@/i18n/navigation"
 import { cn } from "@/lib/utils"
 import type { Project } from "@/types/content"
-
-const areaLabel: Record<Project["area"], string> = {
-  fullstack: "Fullstack",
-  cyber: "Ciberseguridad",
-  ux: "UX",
-}
 
 interface ProjectCardProps {
   project: Project
@@ -15,9 +10,11 @@ interface ProjectCardProps {
 }
 
 export function ProjectCard({ project, className }: ProjectCardProps) {
+  const t = useTranslations("projects.areas")
+
   return (
     <Link
-      href={`/proyectos/${project.slug}`}
+      href={{ pathname: "/projects/[slug]", params: { slug: project.slug } }}
       className={cn(
         "group flex flex-col gap-4 rounded-lg border border-border/50 bg-card p-5 transition-colors hover:border-border hover:bg-muted/30",
         className
@@ -26,7 +23,7 @@ export function ProjectCard({ project, className }: ProjectCardProps) {
       <div className="flex items-start justify-between gap-4">
         <div>
           <span className="text-xs text-muted-foreground">
-            {areaLabel[project.area]}
+            {t(project.area)}
           </span>
           <h3 className="mt-1 font-medium text-foreground group-hover:text-foreground">
             {project.title}

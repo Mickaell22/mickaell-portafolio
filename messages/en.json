@@ -1,0 +1,91 @@
+{
+  "nav": {
+    "home": "Home",
+    "projects": "Projects",
+    "about": "About",
+    "cyber": "Cyber"
+  },
+  "theme": {
+    "toggle": "Toggle theme"
+  },
+  "lang": {
+    "label": "Change language",
+    "es": "ES",
+    "en": "EN",
+    "spanish": "Spanish",
+    "english": "English"
+  },
+  "hero": {
+    "available": "Available for projects",
+    "role": "Fullstack Developer · Guayaquil, Ecuador",
+    "intro": "I build complete web and mobile systems — from the API to the interface. I work mainly with <b>Python</b>, <b>React</b> and <b>Flutter</b>. Software Engineering student at the University of Guayaquil, ninth semester.",
+    "viewProjects": "View projects",
+    "aboutMe": "About me"
+  },
+  "home": {
+    "ctaTitle": "Let's work together",
+    "ctaText": "Available for freelance projects and job opportunities. If you have something in mind, reach out.",
+    "ctaButton": "Get in touch"
+  },
+  "featured": {
+    "title": "Featured projects",
+    "subtitle": "A selection of what I've built",
+    "viewAll": "View all →"
+  },
+  "projects": {
+    "title": "Projects",
+    "count": "{count} projects — real systems, my own tools and freelance work.",
+    "empty": "No projects in this area yet.",
+    "comingSoon": "coming soon",
+    "filters": {
+      "all": "All",
+      "fullstack": "Fullstack",
+      "cyber": "Cybersecurity",
+      "ux": "UX"
+    },
+    "areas": {
+      "fullstack": "Fullstack",
+      "cyber": "Cybersecurity",
+      "ux": "UX"
+    }
+  },
+  "projectDetail": {
+    "back": "All projects",
+    "viewDemo": "View demo",
+    "viewCode": "View code"
+  },
+  "about": {
+    "experience": "Experience",
+    "education": "Education",
+    "skills": "Skills",
+    "current": "current"
+  },
+  "cyber": {
+    "badge": "Coming soon",
+    "title": "Cybersecurity",
+    "text": "Writeups and pentesting labs. This section is under construction."
+  },
+  "footer": {
+    "location": "Mickaell Morán · Guayaquil, Ecuador",
+    "email": "Email"
+  },
+  "cv": {
+    "download": "Download PDF"
+  },
+  "notFound": {
+    "code": "404",
+    "title": "Page not found",
+    "text": "The page you're looking for doesn't exist or was moved.",
+    "back": "Back to home"
+  },
+  "metadata": {
+    "siteTitle": "Mickaell Morán — Fullstack Developer",
+    "siteDescription": "Freelance fullstack developer. Specialized in Python, React and Flutter. Guayaquil, Ecuador.",
+    "projectsTitle": "Projects",
+    "projectsDescription": "Fullstack development, cybersecurity and UX projects by Mickaell Morán.",
+    "aboutTitle": "About",
+    "aboutDescription": "Freelance fullstack developer. Python, React, Flutter. Guayaquil, Ecuador.",
+    "cyberTitle": "Cybersecurity",
+    "cyberDescription": "Writeups and pentesting labs by Mickaell Morán."
+  }
+}
