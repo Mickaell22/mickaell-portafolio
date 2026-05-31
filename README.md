@@ -2,7 +2,7 @@
 
 # mickaell-portafolio
 
-**Portafolio personal y CV dinámico**
+**Portafolio personal bilingüe (ES/EN) y CV dinámico**
 
 [![Next.js](https://img.shields.io/badge/Next.js-000000?style=for-the-badge&logo=nextdotjs&logoColor=white)](https://nextjs.org)
 [![TypeScript](https://img.shields.io/badge/TypeScript-3178C6?style=for-the-badge&logo=typescript&logoColor=white)](https://www.typescriptlang.org)
@@ -23,7 +23,7 @@
 
 Portafolio personal de **Mickaell Morán**, desarrollador fullstack freelance y estudiante de Ingeniería de Software en la Universidad de Guayaquil.
 
-Construido con Next.js App Router, contenido en MDX versionado en git y CV descargable en PDF. Sin backend, sin base de datos — todo estático y rápido.
+Construido con Next.js App Router, contenido en MDX versionado en git, bilingüe (español/inglés) y CV descargable en PDF por idioma. Sin backend, sin base de datos — todo estático y rápido.
 
 **Áreas:**
 - Fullstack (principal)
@@ -36,12 +36,14 @@ Construido con Next.js App Router, contenido en MDX versionado en git y CV desca
 
 | Capa | Tecnología |
 |------|-----------|
-| Framework | Next.js 15 App Router |
+| Framework | Next.js 16 App Router |
 | Lenguaje | TypeScript |
 | Estilos | Tailwind CSS v4 + shadcn/ui |
+| i18n | next-intl (español + inglés, rutas localizadas) |
 | Contenido | MDX + next-mdx-remote + gray-matter |
-| CV PDF | @react-pdf/renderer |
-| Deploy | Railway |
+| CV PDF | @react-pdf/renderer (un PDF por idioma) |
+| Temas | next-themes (modo claro/oscuro) |
+| Deploy | Docker + Railway |
 | Dominio | mickaell.novamicktools.com |
 
 ---
@@ -57,28 +59,71 @@ npm run dev
 
 Abre [http://localhost:3000](http://localhost:3000).
 
+**Scripts disponibles:**
+
+```bash
+npm run dev          # servidor de desarrollo
+npm run build        # build de producción
+npm run start        # servidor de producción
+npm run lint         # linter
+npm run generate:cv  # regenera los PDFs del CV (CV_es.pdf y CV_en.pdf)
+```
+
+> El CV se sirve como PDF estático desde `public/`. Tras editar el contenido del CV
+> en `lib/cv/content.ts`, ejecuta `npm run generate:cv` para regenerar ambos archivos.
+
+---
+
+## Idiomas (i18n)
+
+El sitio está disponible en **español** (por defecto) e **inglés**, con un selector
+ES/EN en el navbar. El español usa rutas limpias y el inglés va bajo `/en`, con
+pathnames localizados:
+
+| Español | Inglés |
+| --- | --- |
+| `/` | `/en` |
+| `/proyectos` | `/en/projects` |
+| `/sobre-mi` | `/en/about` |
+| `/cyber` | `/en/cyber` |
+| `/cv` | `/en/cv` |
+
+- Los textos de UI viven en `messages/es.json` y `messages/en.json`.
+- Los datos del *about* (bio, experiencia, educación, skills) están en `lib/content/about.ts`.
+- Los proyectos MDX tienen una versión por idioma en `content/projects/{es,en}/`, con
+  *fallback* a español si una traducción falta.
+
 ---
 
 ## Estructura
 
 ```
-app/                    # rutas Next.js (App Router)
+app/
+├── [locale]/             # rutas por idioma (es | en)
+│   ├── (main)/           # layout con navbar/footer
+│   │   ├── page.tsx      # home
+│   │   ├── projects/     # listado + detalle [slug]
+│   │   ├── about/        # experiencia, educación, skills
+│   │   └── cyber/        # writeups (próximamente)
+│   └── cv/               # CV en pantalla (botón al PDF del idioma activo)
+i18n/                     # routing, navigation y request config de next-intl
+middleware.ts             # detección/redirección de idioma
 components/
-├── ui/                 # componentes shadcn/ui
-├── layout/             # nav, footer
-├── sections/           # hero, featured projects, etc.
-└── content/            # project card, mdx renderer
-content/
-├── projects/           # case studies en MDX
-├── experience/         # experiencia laboral/freelance
-├── education/          # universidad y certificaciones
-├── skills/             # habilidades por categoría
-├── about/              # bio y contacto
-└── writeups/           # labs de ciberseguridad
+├── ui/                   # componentes shadcn/ui
+├── layout/               # nav, footer, theme provider, language switcher
+├── sections/             # hero, proyectos destacados, filtros
+└── content/              # tarjeta de proyecto, mdx renderer
 lib/
-└── content/            # parsers MDX tipados
+├── content/              # loaders de proyectos y datos del about (bilingüe)
+└── cv/                   # contenido del CV (bilingüe) + documento PDF
+content/
+└── projects/{es,en}/     # case studies en MDX por idioma
+messages/                 # traducciones de UI (es.json, en.json)
+scripts/
+└── generate-cv.tsx       # genera public/CV_es.pdf y public/CV_en.pdf
+public/                   # assets estáticos + CV_es.pdf / CV_en.pdf
 types/
-└── content.ts          # interfaces TypeScript
+└── content.ts            # interfaces TypeScript
 ```
 
 ---
@@ -87,14 +132,15 @@ types/
 
 - [x] Setup base Next.js + shadcn/ui
 - [x] Sistema de contenido MDX
-- [ ] Layout global (nav, footer, dark/light)
-- [ ] Home page (hero + proyectos destacados)
-- [ ] Página de proyectos con filtros
-- [ ] Página de proyecto individual
-- [ ] About + experiencia + skills
-- [ ] CV PDF descargable
-- [ ] SEO + Open Graph
-- [ ] Deploy en Railway
+- [x] Layout global (nav, footer, dark/light)
+- [x] Home page (hero + proyectos destacados)
+- [x] Página de proyectos con filtros
+- [x] Página de proyecto individual
+- [x] About + experiencia + skills
+- [x] CV PDF descargable
+- [x] SEO + Open Graph
+- [x] Deploy en Railway
+- [x] Internacionalización ES/EN (next-intl) + CV bilingüe
 
 ---
 
