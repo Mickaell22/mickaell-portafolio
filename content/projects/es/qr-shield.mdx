@@ -1,0 +1,39 @@
+---
+title: qr-shield
+area: cyber
+description: Detector de QR maliciosos para prevenir ataques de quishing. Extensión de Chromium + app Android que valida URLs contra Google Safe Browsing, VirusTotal y PhishTank antes de abrirlas.
+stack: ["Python", "Chrome Extension", "Android", "VirusTotal API", "Google Safe Browsing", "PhishTank"]
+github: "https://github.com/Mickaell22/qr-shield"
+demo: ""
+image: ""
+featured: true
+date: "2026-06-07"
+role: Proyecto propio
+---
+
+## Contexto
+
+El **quishing** (QR phishing) es un vector de ataque creciente: códigos QR en restaurantes, carteles y emails que redirigen a sitios maliciosos. Los usuarios escanean sin verificar a dónde van. qr-shield intercepta esa URL antes de abrirla.
+
+## Cómo funciona
+
+1. El usuario escanea o detecta un código QR
+2. La URL extraída se valida contra tres fuentes simultáneamente:
+   - **Google Safe Browsing API** — base de datos de Google de URLs maliciosas
+   - **VirusTotal API** — análisis con 70+ motores antivirus
+   - **PhishTank** — base de datos comunitaria de sitios de phishing
+3. Si alguna fuente la marca como maliciosa, se bloquea y se muestra una alerta
+4. Si es segura, se abre normalmente
+
+## Plataformas
+
+- **Extensión de Chromium:** intercepta QRs detectados en páginas web
+- **App Android:** escanea con la cámara del dispositivo en tiempo real
+
+## Contexto académico
+
+Proyecto de tesis universitaria. Desarrollado para demostrar un sistema de detección multicapa aplicable a entornos reales.
+
+## Por qué importa
+
+A diferencia de simplemente validar con una sola fuente, el sistema combina tres con lógica de consenso — una URL puede pasar VirusTotal y aún estar en PhishTank. La detección multicapa reduce los falsos negativos.

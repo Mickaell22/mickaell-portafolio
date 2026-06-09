@@ -1,0 +1,36 @@
+---
+title: ApplyJob
+area: fullstack
+description: Job application automation pipeline. Discovers jobs across 7 boards, filters by tech profile, generates personalized cover letters with AI, and can auto-apply on ATS platforms.
+stack: ["Python", "Playwright", "httpx", "Anthropic SDK", "DeepSeek"]
+github: "https://github.com/Mickaell22/ApplyJob"
+demo: ""
+image: ""
+featured: true
+date: "2026-06-07"
+role: Proyecto propio
+---
+
+## Context
+
+Manually searching for jobs across multiple platforms is slow and repetitive. I built a complete pipeline that automates the entire process — from discovering listings to generating a personalized cover letter.
+
+## How it works
+
+1. **Discovery:** scrapes 7 job boards simultaneously (GetOnBrd, Himalayas, We Work Remotely, 4 Day Week, Remote First Jobs, Working Nomads, Remotive)
+2. **Cascade filtering:** tech keywords → excludes senior/lead → excludes "3+ years of experience" requirements → filters for genuinely remote positions
+3. **Matching:** compares the job's stack against the candidate profile, discards low-match listings
+4. **Cover letter generation:** personalized letter per job using DeepSeek via the Anthropic SDK
+5. **Auto-apply:** Playwright fills and submits forms on Workable, Greenhouse and GetOnBrd
+
+## Real scale
+
+A typical run processes ~600 raw job listings and generates 50–80 personalized cover letters in a single execution.
+
+## Tech stack
+
+Python for the entire pipeline. httpx for HTTP scraping. Playwright for JS-heavy sites and ATS auto-apply. Anthropic SDK for letter generation. Bilingual support ES/EN.
+
+## Status
+
+In active use and continuous development.

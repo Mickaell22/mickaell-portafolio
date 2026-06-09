@@ -1,0 +1,42 @@
+---
+title: MotoVox
+area: fullstack
+description: Intercomunicador P2P para moto en tiempo real sobre WiFi local. Flutter + C nativo compilado via FFI para filtro de ruido de motor y viento con RNNoise.
+stack: ["Flutter", "Dart", "C", "WebRTC", "FFI", "RNNoise"]
+github: "https://github.com/Mickaell22/Proyecto-MotoVox"
+demo: ""
+image: ""
+featured: true
+date: "2026-05-05"
+role: Proyecto propio
+---
+
+## Contexto
+
+Quería comunicarme con mi copiloto en moto sin depender de señal celular ni de Bluetooth de corto alcance. La solución: audio P2P sobre WiFi local, con filtro de ruido de motor y viento en tiempo real.
+
+## Cómo funciona
+
+Conductor y copiloto se conectan por la misma red WiFi (o hotspot). La conexión se establece escaneando un código QR — sin configurar IPs manualmente. El audio fluye en tiempo real entre los dos dispositivos con latencia baja.
+
+## El desafío técnico
+
+El ruido de una moto (motor + viento) destruye cualquier comunicación de voz sin filtrar. La solución fue integrar **RNNoise** — una librería de supresión de ruido desarrollada por Mozilla — compilada directamente en C para ARM64 y llamada desde Flutter via **FFI (Foreign Function Interface)**.
+
+Esto significa que el procesamiento de audio corre nativamente en el procesador del teléfono, sin pasar por una API externa, con latencia de milisegundos.
+
+## Stack técnico
+
+- **Flutter + Dart:** UI multiplataforma y gestión de la sesión
+- **WebRTC:** canal de audio P2P sobre WiFi local
+- **C nativo (ARM64):** RNNoise compilado para arquitectura ARM
+- **FFI:** puente entre Dart y el código C nativo
+- **QR:** conexión sin configuración de IPs
+
+## Sistema de licencias
+
+La app incluye un sistema de estados: desbloqueado / prueba / vencida. Diseñado para una eventual distribución.
+
+## Por qué destaca
+
+Integrar una librería C nativa en Flutter via FFI para procesamiento de audio en tiempo real no es algo que se vea en proyectos de estudiantes. Requiere entender la arquitectura ARM, compilación cruzada, gestión de memoria manual y la capa de interoperabilidad de Dart.

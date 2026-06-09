@@ -1,0 +1,49 @@
+---
+title: Flores Eternas
+area: fullstack
+description: E-commerce for a preserved flower shop with electronic invoicing fully integrated with Ecuador's SRI tax authority. XML generation, digital signature, SOAP submission and invoice authorization.
+stack: ["Node.js", "Express", "Prisma", "PostgreSQL", "React", "Tailwind CSS"]
+github: "https://github.com/Mickaell22/Flores-Backend"
+demo: ""
+image: ""
+featured: true
+date: "2025-09-25"
+role: Freelance
+---
+
+## Context
+
+A real client — a preserved flower shop that needed a full e-commerce platform with valid electronic invoicing for Ecuador. The SRI integration was the technical core of the project.
+
+## Electronic invoicing — SRI
+
+The system generates valid electronic invoices for Ecuador's Servicio de Rentas Internas (tax authority). The full flow:
+
+1. XML generation with the structure required by the SRI
+2. Digital signing of the document with an electronic certificate
+3. SOAP submission to the SRI webservice
+4. Receipt and storage of the authorization
+
+This is not a modern REST API integration — the SRI uses SOAP and XML with a specific schema that very few junior developers have worked with.
+
+## E-commerce features
+
+- Product catalog with images and categories
+- Cart and checkout flow
+- Roles: ADMIN / SELLER / CLIENT
+- Admin panel with inventory management
+- Order and invoice history per customer
+
+## Security
+
+Rate limiting, Helmet for HTTP headers, input sanitization. This was not an academic project — it handled real customer data.
+
+## Tech stack
+
+**Backend:** Node.js + Express + Prisma ORM + PostgreSQL. JWT for authentication.
+
+**Frontend:** React with Tailwind CSS.
+
+## Why it stands out
+
+Ecuador's SRI integration is a very specific technical niche. Most experienced developers in Ecuador have never implemented it. In an interview with an Ecuadorian company, it opens very different conversations.

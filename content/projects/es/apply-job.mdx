@@ -1,0 +1,36 @@
+---
+title: ApplyJob
+area: fullstack
+description: Pipeline de automatización de postulaciones laborales. Descubre ofertas en 7 job boards, filtra por perfil técnico, genera cartas personalizadas con IA y puede postular automáticamente en ATS.
+stack: ["Python", "Playwright", "httpx", "Anthropic SDK", "DeepSeek"]
+github: "https://github.com/Mickaell22/ApplyJob"
+demo: ""
+image: ""
+featured: true
+date: "2026-06-07"
+role: Proyecto propio
+---
+
+## Contexto
+
+Buscar trabajo manualmente en múltiples plataformas es lento y repetitivo. Construí un pipeline completo que automatiza todo el proceso: desde descubrir las ofertas hasta generar la carta de presentación personalizada.
+
+## Cómo funciona
+
+1. **Descubrimiento:** scraping de 7 job boards simultáneamente (GetOnBrd, Himalayas, We Work Remotely, 4 Day Week, Remote First Jobs, Working Nomads, Remotive)
+2. **Filtrado en cascada:** keywords técnicas → excluye senior/lead → excluye requisitos de 3+ años → filtra por ubicación remota real
+3. **Matching:** compara el stack de la oferta contra el perfil del candidato, descarta si el match es bajo
+4. **Generación de cartas:** carta personalizada por oferta usando DeepSeek via Anthropic SDK
+5. **Auto-apply:** Playwright llena y envía formularios en Workable, Greenhouse y GetOnBrd
+
+## Escala real
+
+Una corrida típica procesa ~600 ofertas brutas y genera 50-80 cartas personalizadas en una sola ejecución.
+
+## Stack técnico
+
+Python para todo el pipeline. httpx para scraping HTTP. Playwright para sitios con JS pesado y auto-apply en ATS. Anthropic SDK para generación de cartas. Soporte bilingüe ES/EN.
+
+## Estado
+
+En uso activo y en desarrollo continuo.

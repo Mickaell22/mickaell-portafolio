@@ -1,0 +1,42 @@
+---
+title: MotoVox
+area: fullstack
+description: Real-time P2P motorbike intercom over local WiFi. Flutter + native C compiled via FFI for engine and wind noise filtering with RNNoise.
+stack: ["Flutter", "Dart", "C", "WebRTC", "FFI", "RNNoise"]
+github: "https://github.com/Mickaell22/Proyecto-MotoVox"
+demo: ""
+image: ""
+featured: true
+date: "2026-05-05"
+role: Proyecto propio
+---
+
+## Context
+
+I wanted to communicate with my passenger on a motorbike without relying on cell signal or short-range Bluetooth. The solution: P2P audio over local WiFi, with real-time engine and wind noise filtering.
+
+## How it works
+
+Rider and passenger connect over the same WiFi network (or hotspot). The connection is established by scanning a QR code — no manual IP configuration. Audio flows in real time between both devices with low latency.
+
+## The technical challenge
+
+Motorbike noise (engine + wind) destroys any unfiltered voice communication. The solution was integrating **RNNoise** — a noise suppression library developed by Mozilla — compiled directly in C for ARM64 and called from Flutter via **FFI (Foreign Function Interface)**.
+
+This means the audio processing runs natively on the phone's processor, without going through an external API, with millisecond latency.
+
+## Tech stack
+
+- **Flutter + Dart:** cross-platform UI and session management
+- **WebRTC:** P2P audio channel over local WiFi
+- **Native C (ARM64):** RNNoise compiled for ARM architecture
+- **FFI:** bridge between Dart and native C code
+- **QR:** connection without IP configuration
+
+## License system
+
+The app includes a state system: unlocked / trial / expired. Designed for eventual distribution.
+
+## Why it stands out
+
+Integrating a native C library into Flutter via FFI for real-time audio processing is not something you see in student projects. It requires understanding ARM architecture, cross-compilation, manual memory management, and Dart's interoperability layer.
