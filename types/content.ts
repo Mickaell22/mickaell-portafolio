@@ -16,6 +16,7 @@ export interface Project {
   github?: string
   demo?: string
   image?: string
+  gallery?: string[]
   featured: boolean
   date: string
   role: ProjectRole

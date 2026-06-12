@@ -3,6 +3,7 @@ import { useTranslations } from "next-intl"
 import { Link } from "@/i18n/navigation"
 import { cn } from "@/lib/utils"
 import type { Project } from "@/types/content"
+import { ProjectCover } from "@/components/content/ProjectCover"
 
 interface ProjectCardProps {
   project: Project
@@ -20,6 +21,13 @@ export function ProjectCard({ project, className }: ProjectCardProps) {
         className
       )}
     >
+      <ProjectCover
+        area={project.area}
+        title={project.title}
+        stack={project.stack}
+        image={project.image}
+      />
+
       <div className="flex items-start justify-between gap-4">
         <div>
           <span className="text-xs text-muted-foreground">

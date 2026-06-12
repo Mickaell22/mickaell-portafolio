@@ -6,6 +6,7 @@ import { getTranslations, setRequestLocale } from "next-intl/server"
 import { Link } from "@/i18n/navigation"
 import { getAllProjects, getProjectBySlug } from "@/lib/content/projects"
 import { routing, type Locale } from "@/i18n/routing"
+import { ProjectGallery } from "@/components/content/ProjectGallery"
 
 interface Props {
   params: Promise<{ locale: Locale; slug: string }>
@@ -112,6 +113,14 @@ export default async function ProjectPage({ params }: Props) {
           )}
         </div>
       </header>
+
+      <ProjectGallery
+        images={project.gallery && project.gallery.length > 0 ? project.gallery : project.image ? [project.image] : []}
+        title={project.title}
+        area={project.area}
+        stack={project.stack}
+        className="mb-10 max-h-72"
+      />
 
       <hr className="mb-10 border-border/50" />
 
