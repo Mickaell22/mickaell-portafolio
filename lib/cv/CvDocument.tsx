@@ -2,181 +2,132 @@ import { Document, Page, View, Text, StyleSheet } from "@react-pdf/renderer"
 import { getCvContent } from "./content"
 import { routing, type Locale } from "../../i18n/routing"
 
+// Formato Harvard: una sola columna ATS-friendly, cabecera centrada, Educacion
+// primero, cada entrada con organizacion + ubicacion (derecha) en la 1ra linea
+// y cargo/titulo + fecha (derecha) en la 2da. Secciones con titulo en negrita y
+// regla. Sin resumen ni subtitulo.
 const c = {
-  black: "#09090b",
-  dark: "#18181b",
-  mid: "#3f3f46",
-  muted: "#71717a",
-  light: "#a1a1aa",
-  border: "#e4e4e7",
+  black: "#000000",
+  text: "#1a1a1a",
+  mid: "#333333",
+  muted: "#555555",
 }
 
 const s = StyleSheet.create({
   page: {
     fontFamily: "Helvetica",
-    fontSize: 9,
-    color: c.dark,
-    paddingTop: 40,
-    paddingBottom: 40,
-    paddingHorizontal: 50,
-    lineHeight: 1.5,
+    fontSize: 9.5,
+    color: c.text,
+    paddingTop: 38,
+    paddingBottom: 38,
+    paddingHorizontal: 54,
+    lineHeight: 1.4,
   },
   name: {
-    fontSize: 20,
+    fontSize: 18,
     fontFamily: "Helvetica-Bold",
     color: c.black,
+    textAlign: "center",
+    letterSpacing: 0.5,
     marginBottom: 3,
   },
-  subtitle: {
-    fontSize: 10,
-    color: c.muted,
+  contact: {
+    fontSize: 8.5,
+    color: c.mid,
+    textAlign: "center",
     marginBottom: 8,
   },
-  contactRow: {
-    flexDirection: "row",
-    flexWrap: "wrap",
-    marginBottom: 12,
-  },
-  contactItem: {
-    fontSize: 8,
-    color: c.muted,
-    marginRight: 14,
-    marginBottom: 2,
-  },
-  divider: {
-    borderBottomWidth: 0.5,
-    borderBottomColor: c.border,
-    marginBottom: 12,
+  headerRule: {
+    borderBottomWidth: 1,
+    borderBottomColor: c.black,
+    marginBottom: 8,
   },
   section: {
-    marginBottom: 12,
+    marginBottom: 9,
   },
   sectionTitle: {
-    fontSize: 7.5,
+    fontSize: 10.5,
     fontFamily: "Helvetica-Bold",
-    color: c.muted,
+    color: c.black,
+    borderBottomWidth: 0.75,
+    borderBottomColor: c.black,
+    paddingBottom: 2,
+    marginBottom: 5,
+  },
+  entry: {
     marginBottom: 7,
-  },
-  skillRow: {
-    flexDirection: "row",
-    marginBottom: 4,
-  },
-  skillLabel: {
-    width: 88,
-    fontFamily: "Helvetica-Bold",
-    color: c.mid,
-    fontSize: 8,
-  },
-  skillValue: {
-    flex: 1,
-    color: c.mid,
-    fontSize: 8,
-  },
-  expBlock: {
-    marginBottom: 8,
-  },
-  expHeader: {
-    flexDirection: "row",
-    justifyContent: "space-between",
-    marginBottom: 1,
-  },
-  expCompany: {
-    fontFamily: "Helvetica-Bold",
-    fontSize: 9,
-    color: c.black,
-  },
-  expPeriod: {
-    fontSize: 8,
-    color: c.muted,
-  },
-  expRole: {
-    fontSize: 8,
-    color: c.muted,
-    marginBottom: 4,
-  },
-  bullet: {
-    flexDirection: "row",
-    marginBottom: 2,
-  },
-  bulletDash: {
-    width: 10,
-    color: c.light,
-    fontSize: 8,
-  },
-  bulletText: {
-    flex: 1,
-    fontSize: 8,
-    color: c.mid,
-  },
-  projectBlock: {
-    marginBottom: 6,
-  },
-  projectHeader: {
-    flexDirection: "row",
-    marginBottom: 2,
-  },
-  projectName: {
-    fontFamily: "Helvetica-Bold",
-    fontSize: 9,
-    color: c.black,
-    marginRight: 8,
-  },
-  projectLink: {
-    fontSize: 7.5,
-    color: c.muted,
-    marginTop: 1,
-  },
-  projectDesc: {
-    fontSize: 8,
-    color: c.mid,
-    marginBottom: 1,
-  },
-  projectStack: {
-    fontSize: 7.5,
-    color: c.light,
-  },
-  twoCol: {
-    flexDirection: "row",
-    marginBottom: 12,
-  },
-  col: {
-    flex: 1,
-    marginRight: 20,
-  },
-  colLast: {
-    flex: 1,
-  },
-  entryBlock: {
-    marginBottom: 6,
   },
   entryHeader: {
     flexDirection: "row",
     justifyContent: "space-between",
-    marginBottom: 1,
+    marginBottom: 0.5,
   },
-  entryTitle: {
+  org: {
     fontFamily: "Helvetica-Bold",
-    fontSize: 8.5,
+    fontSize: 9.5,
     color: c.black,
+    flex: 1,
   },
-  entryPeriod: {
-    fontSize: 8,
-    color: c.muted,
-  },
-  entrySub: {
-    fontSize: 8,
-    color: c.muted,
-  },
-  bodyText: {
-    fontSize: 8.5,
+  right: {
+    fontSize: 9,
     color: c.mid,
+    textAlign: "right",
+    marginLeft: 8,
+  },
+  subline: {
+    fontFamily: "Helvetica-Oblique",
+    fontSize: 9,
+    color: c.mid,
+    flex: 1,
+  },
+  note: {
+    fontSize: 8.5,
+    color: c.muted,
+    marginTop: 0.5,
+  },
+  bullet: {
+    flexDirection: "row",
+    marginBottom: 1.5,
+    marginTop: 1.5,
+    paddingLeft: 4,
+  },
+  bulletDot: {
+    width: 10,
+    fontSize: 9,
+    color: c.mid,
+  },
+  bulletText: {
+    flex: 1,
+    fontSize: 9,
+    color: c.mid,
+  },
+  projStack: {
+    fontSize: 8,
+    color: c.muted,
+    textAlign: "right",
+    marginLeft: 8,
+  },
+  skillRow: {
+    flexDirection: "row",
+    marginBottom: 2.5,
+  },
+  skillLabel: {
+    width: 100,
+    fontFamily: "Helvetica-Bold",
+    color: c.text,
+    fontSize: 8.5,
+  },
+  skillValue: {
+    flex: 1,
+    color: c.mid,
+    fontSize: 8.5,
   },
 })
 
 function Bullet({ text }: { text: string }) {
   return (
     <View style={s.bullet}>
-      <Text style={s.bulletDash}>—</Text>
+      <Text style={s.bulletDot}>•</Text>
       <Text style={s.bulletText}>{text}</Text>
     </View>
   )
@@ -193,44 +144,42 @@ export function CvDocument({
     <Document title={`CV — ${cv.name}`} author={cv.name}>
       <Page size="A4" style={s.page}>
 
-        {/* Cabecera */}
+        {/* Cabecera centrada */}
         <Text style={s.name}>{cv.name}</Text>
-        <Text style={s.subtitle}>{cv.title}</Text>
-        <View style={s.contactRow}>
-          {cv.contacts.map((item) => (
-            <Text key={item} style={s.contactItem}>{item}</Text>
-          ))}
-        </View>
+        <Text style={s.contact}>{cv.contacts.join("   •   ")}</Text>
+        <View style={s.headerRule} />
 
-        <View style={s.divider} />
-
-        {/* Perfil */}
+        {/* Educacion */}
         <View style={s.section}>
-          <Text style={s.sectionTitle}>{cv.labels.profile.toUpperCase()}</Text>
-          <Text style={s.bodyText}>{cv.profile}</Text>
-        </View>
-
-        {/* Habilidades */}
-        <View style={s.section}>
-          <Text style={s.sectionTitle}>{cv.labels.skills.toUpperCase()}</Text>
-          {cv.skills.map(([label, value]) => (
-            <View key={label} style={s.skillRow}>
-              <Text style={s.skillLabel}>{label}</Text>
-              <Text style={s.skillValue}>{value}</Text>
+          <Text style={s.sectionTitle}>{cv.labels.education}</Text>
+          {cv.education.map((edu) => (
+            <View key={edu.degree} style={s.entry}>
+              <View style={s.entryHeader}>
+                <Text style={s.org}>{edu.institution}</Text>
+                <Text style={s.right}>{edu.location}</Text>
+              </View>
+              <View style={s.entryHeader}>
+                <Text style={s.subline}>{edu.degree}</Text>
+                <Text style={s.right}>{edu.period}</Text>
+              </View>
+              {edu.note ? <Text style={s.note}>{edu.note}</Text> : null}
             </View>
           ))}
         </View>
 
         {/* Experiencia */}
         <View style={s.section}>
-          <Text style={s.sectionTitle}>{cv.labels.experience.toUpperCase()}</Text>
+          <Text style={s.sectionTitle}>{cv.labels.experience}</Text>
           {cv.experiences.map((exp) => (
-            <View key={exp.company} style={s.expBlock}>
-              <View style={s.expHeader}>
-                <Text style={s.expCompany}>{exp.company}</Text>
-                <Text style={s.expPeriod}>{exp.period}</Text>
+            <View key={exp.company} style={s.entry}>
+              <View style={s.entryHeader}>
+                <Text style={s.org}>{exp.company}</Text>
+                <Text style={s.right}>{exp.location}</Text>
               </View>
-              <Text style={s.expRole}>{exp.role}</Text>
+              <View style={s.entryHeader}>
+                <Text style={s.subline}>{exp.role}</Text>
+                <Text style={s.right}>{exp.period}</Text>
+              </View>
               {exp.bullets.map((b) => (
                 <Bullet key={b} text={b} />
               ))}
@@ -240,49 +189,33 @@ export function CvDocument({
 
         {/* Proyectos */}
         <View style={s.section}>
-          <Text style={s.sectionTitle}>{cv.labels.projects.toUpperCase()}</Text>
+          <Text style={s.sectionTitle}>{cv.labels.projects}</Text>
           {cv.projects.map((p) => (
-            <View key={p.name} style={s.projectBlock}>
-              <View style={s.projectHeader}>
-                <Text style={s.projectName}>{p.name}</Text>
-                {p.link ? <Text style={s.projectLink}>{p.link}</Text> : null}
+            <View key={p.name} style={s.entry}>
+              <View style={s.entryHeader}>
+                <Text style={s.org}>{p.name}</Text>
+                <Text style={s.right}>{p.link}</Text>
               </View>
-              <Text style={s.projectDesc}>{p.desc}</Text>
-              <Text style={s.projectStack}>{p.stack}</Text>
+              <View style={s.entryHeader}>
+                <Text style={s.subline}>{p.tagline}</Text>
+                <Text style={s.projStack}>{p.stack}</Text>
+              </View>
+              {p.bullets.map((b) => (
+                <Bullet key={b} text={b} />
+              ))}
             </View>
           ))}
         </View>
 
-        {/* Educación + Certificaciones */}
-        <View style={s.twoCol}>
-          <View style={s.col}>
-            <Text style={s.sectionTitle}>{cv.labels.education.toUpperCase()}</Text>
-            {cv.education.map((edu) => (
-              <View key={edu.degree} style={s.entryBlock}>
-                <View style={s.entryHeader}>
-                  <Text style={s.entryTitle}>{edu.degree}</Text>
-                  <Text style={s.entryPeriod}>{edu.period}</Text>
-                </View>
-                <Text style={s.entrySub}>{edu.institution}</Text>
-              </View>
-            ))}
-          </View>
-
-          <View style={s.colLast}>
-            <Text style={s.sectionTitle}>{cv.labels.certifications.toUpperCase()}</Text>
-            {cv.certifications.map((cert) => (
-              <View key={cert.name} style={s.entryBlock}>
-                <Text style={s.entryTitle}>{cert.name}</Text>
-                <Text style={s.entrySub}>{cert.sub}</Text>
-              </View>
-            ))}
-          </View>
-        </View>
-
-        {/* Idiomas */}
-        <View>
-          <Text style={s.sectionTitle}>{cv.labels.languages.toUpperCase()}</Text>
-          <Text style={s.bodyText}>{cv.languages}</Text>
+        {/* Habilidades (incluye idiomas) */}
+        <View style={s.section}>
+          <Text style={s.sectionTitle}>{cv.labels.skills}</Text>
+          {cv.skills.map(([label, value]) => (
+            <View key={label} style={s.skillRow}>
+              <Text style={s.skillLabel}>{label}</Text>
+              <Text style={s.skillValue}>{value}</Text>
+            </View>
+          ))}
         </View>
 
       </Page>
