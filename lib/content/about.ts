@@ -40,7 +40,7 @@ const es: AboutContent = {
     {
       company: "EcuaInventario",
       role: "Co-fundador · Desarrollador fullstack",
-      period: "2024 — actual",
+      period: "Feb. 2026 — actual",
       current: true,
       summary:
         "SaaS gastronómico multitenancy con IA integrada. Co-propietario junto a mi jefe. Casi en producción.",
@@ -54,7 +54,7 @@ const es: AboutContent = {
     {
       company: "Freelance",
       role: "Desarrollador fullstack",
-      period: "2023 — actual",
+      period: "Jul. 2025 — actual",
       current: true,
       summary:
         "Proyectos para clientes reales: sistema clínico integral, facturador propio en producción, simulador de exámenes universitario.",
@@ -68,7 +68,7 @@ const es: AboutContent = {
     {
       company: "Área de Nivelación — Universidad de Guayaquil",
       role: "Practicante · Desarrollo de software",
-      period: "2025 · 6 meses",
+      period: "Feb. 2026 · 6 meses",
       current: false,
       summary:
         "Lideré el desarrollo del SimuladorPreguntas y automaticé procesos internos con scripts que redujeron horas de trabajo manual a minutos.",
@@ -91,16 +91,16 @@ const es: AboutContent = {
     {
       institution: "Google / Coursera",
       degree: "Certificado de Ciberseguridad",
-      period: "2025",
-      current: false,
-      note: "Foundations completado",
+      period: "2026 — en curso",
+      current: true,
+      note: "1 de 4 cursos (Foundations completado)",
     },
     {
       institution: "Google / Coursera",
       degree: "Certificado de UX Design",
-      period: "2025 — en curso",
+      period: "2026 — en curso",
       current: true,
-      note: "1 de 8 cursos",
+      note: "2 de 8 cursos",
     },
   ],
   skillGroups: [
@@ -123,7 +123,7 @@ const en: AboutContent = {
     {
       company: "EcuaInventario",
       role: "Co-founder · Fullstack Developer",
-      period: "2024 — present",
+      period: "Feb 2026 — present",
       current: true,
       summary:
         "Multitenant restaurant SaaS with integrated AI. Co-owner alongside my boss. Almost in production.",
@@ -137,7 +137,7 @@ const en: AboutContent = {
     {
       company: "Freelance",
       role: "Fullstack Developer",
-      period: "2023 — present",
+      period: "Jul 2025 — present",
       current: true,
       summary:
         "Projects for real clients: a complete clinical system, my own invoicing tool in production, and a university exam simulator.",
@@ -151,7 +151,7 @@ const en: AboutContent = {
     {
       company: "Leveling Department — University of Guayaquil",
       role: "Intern · Software Development",
-      period: "2025 · 6 months",
+      period: "Feb 2026 · 6 months",
       current: false,
       summary:
         "Led the development of SimuladorPreguntas and automated internal processes with scripts that cut hours of manual work down to minutes.",
@@ -174,16 +174,16 @@ const en: AboutContent = {
     {
       institution: "Google / Coursera",
       degree: "Cybersecurity Certificate",
-      period: "2025",
-      current: false,
-      note: "Foundations completed",
+      period: "2026 — in progress",
+      current: true,
+      note: "1 of 4 courses (Foundations completed)",
     },
     {
       institution: "Google / Coursera",
       degree: "UX Design Certificate",
-      period: "2025 — in progress",
+      period: "2026 — in progress",
       current: true,
-      note: "1 of 8 courses",
+      note: "2 of 8 courses",
     },
   ],
   skillGroups: [

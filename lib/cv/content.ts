@@ -76,13 +76,15 @@ const es: CvContent = {
       institution: "Google / Coursera",
       location: "En línea",
       degree: "Certificado Profesional en Ciberseguridad",
-      period: "2025",
+      period: "2026 – en progreso",
+      note: "1 de 4 cursos (Foundations completado)",
     },
     {
       institution: "Google / Coursera",
       location: "En línea",
       degree: "Certificado Profesional en Diseño UX",
-      period: "2025 – en progreso",
+      period: "2026 – en progreso",
+      note: "2 de 8 cursos",
     },
   ],
   experiences: [
@@ -90,7 +92,7 @@ const es: CvContent = {
       company: "EcuaInventario",
       location: "Guayaquil, Ecuador",
       role: "Co-fundador y Desarrollador Fullstack",
-      period: "2024 – actual",
+      period: "Feb. 2026 – actual",
       bullets: [
         "Construí el backend con Django 5 + Django REST Framework + PostgreSQL para un SaaS multitenancy orientado al sector gastronómico.",
         "Integré un asistente de IA con Claude (Anthropic) para consultas de inventario, gestión de pedidos y reportes automáticos.",
@@ -102,7 +104,7 @@ const es: CvContent = {
       company: "Freelance",
       location: "Guayaquil, Ecuador",
       role: "Desarrollador Fullstack",
-      period: "2023 – actual",
+      period: "Jul. 2025 – actual",
       bullets: [
         "Construí el sistema clínico Tía Glenda (React + MUI + Python + PostgreSQL, 190+ componentes) — en producción.",
         "Desarrollé un sistema de facturación electrónica integrado con el SRI de Ecuador, en producción en novamicktools.com.",
@@ -114,7 +116,7 @@ const es: CvContent = {
       company: "Área de Nivelación — Universidad de Guayaquil",
       location: "Guayaquil, Ecuador",
       role: "Practicante de Desarrollo de Software",
-      period: "2025 (6 meses)",
+      period: "Feb. 2026 (6 meses)",
       bullets: [
         "Lideré frontend, backend, pruebas y despliegue de la plataforma SimuladorPreguntas para uso institucional.",
         "Automaticé flujos internos de registro y generación de reportes con scripts en Python.",
@@ -186,13 +188,15 @@ const en: CvContent = {
       institution: "Google / Coursera",
       location: "Online",
       degree: "Professional Certificate in Cybersecurity",
-      period: "2025",
+      period: "2026 – in progress",
+      note: "1 of 4 courses (Foundations completed)",
     },
     {
       institution: "Google / Coursera",
       location: "Online",
       degree: "Professional Certificate in UX Design",
-      period: "2025 – in progress",
+      period: "2026 – in progress",
+      note: "2 of 8 courses",
     },
   ],
   experiences: [
@@ -200,7 +204,7 @@ const en: CvContent = {
       company: "EcuaInventario",
       location: "Guayaquil, Ecuador",
       role: "Co-founder & Fullstack Developer",
-      period: "2024 – present",
+      period: "Feb 2026 – present",
       bullets: [
         "Built backend with Django 5 + Django REST Framework + PostgreSQL for a multitenancy SaaS targeting the restaurant industry.",
         "Integrated an AI assistant powered by Claude (Anthropic) for inventory queries, order management, and automated reports.",
@@ -212,7 +216,7 @@ const en: CvContent = {
       company: "Freelance",
       location: "Guayaquil, Ecuador",
       role: "Fullstack Developer",
-      period: "2023 – present",
+      period: "Jul 2025 – present",
       bullets: [
         "Built Tia Glenda clinical management system (React + MUI + Python + PostgreSQL, 190+ components) — in production.",
         "Developed an e-invoicing system integrated with Ecuador's SRI tax authority, running in production at novamicktools.com.",
@@ -224,7 +228,7 @@ const en: CvContent = {
       company: "Leveling Area — University of Guayaquil",
       location: "Guayaquil, Ecuador",
       role: "Software Development Intern",
-      period: "2025 (6 months)",
+      period: "Feb 2026 (6 months)",
       bullets: [
         "Led frontend, backend, testing, and deployment of the SimuladorPreguntas platform for institutional use.",
         "Automated internal registration and report-generation workflows using Python scripts.",
