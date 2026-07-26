@@ -130,6 +130,9 @@ export function ProjectGallery({ images, title, area, stack, className }: Projec
             fill
             className="object-contain"
             sizes="(max-width: 768px) 100vw, 800px"
+            // El optimizador convierte los GIF a imagen estatica y se pierde
+            // la animacion, que en un demo es justamente lo que se quiere ver.
+            unoptimized={images[0].endsWith(".gif")}
           />
           <ExpandBtn />
         </div>
@@ -153,6 +156,7 @@ export function ProjectGallery({ images, title, area, stack, className }: Projec
                 className="object-contain"
                 sizes="(max-width: 768px) 100vw, 800px"
                 priority={i === 0}
+                unoptimized={src.endsWith(".gif")}
               />
             </div>
           ))}

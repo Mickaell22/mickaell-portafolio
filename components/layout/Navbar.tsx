@@ -32,7 +32,7 @@ export function Navbar() {
           href="/"
           className="text-sm font-semibold tracking-tight text-foreground"
         >
-          mickaell<span className="text-muted-foreground">.</span>dev
+          Mickaell <span className="text-muted-foreground">Morán</span>
         </Link>
 
         {/* desktop */}
