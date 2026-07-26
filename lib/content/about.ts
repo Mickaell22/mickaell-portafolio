@@ -43,7 +43,7 @@ const es: AboutContent = {
       period: "Feb. 2026 — actual",
       current: true,
       summary:
-        "SaaS gastronómico multitenancy con IA integrada. Co-propietario junto a mi jefe. Casi en producción.",
+        "SaaS gastronómico multitenancy con IA integrada. Co-propietario junto a mi jefe. En producción.",
       highlights: [
         "Backend en Django 5 + DRF + PostgreSQL con arquitectura multitenancy",
         "Chat IA con Claude Haiku y transcripción de pedidos por voz con Whisper",
@@ -129,7 +129,7 @@ const en: AboutContent = {
       period: "Feb 2026 — present",
       current: true,
       summary:
-        "Multitenant restaurant SaaS with integrated AI. Co-owner alongside my boss. Almost in production.",
+        "Multitenant restaurant SaaS with integrated AI. Co-owner alongside my boss. In production.",
       highlights: [
         "Backend in Django 5 + DRF + PostgreSQL with a multitenant architecture",
         "AI chat with Claude Haiku and voice order transcription with Whisper",
