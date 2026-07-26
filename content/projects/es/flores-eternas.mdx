@@ -1,8 +1,8 @@
 ---
 title: Flores Eternas
 area: fullstack
-description: E-commerce para tienda de flores de tela artesanales con facturación electrónica integrada al SRI de Ecuador. Generación de XML, firma digital, envío SOAP y autorización de facturas.
-stack: ["Node.js", "Express", "Prisma", "PostgreSQL", "React", "Tailwind CSS"]
+description: "E-commerce para tienda de flores de tela artesanales con integración al SRI de Ecuador: generación del XML de factura, clave de acceso de 49 dígitos y envío por SOAP a los webservices de recepción y autorización."
+stack: ["Node.js", "Express", "Prisma", "PostgreSQL", "Zod", "React", "Zustand", "Tailwind CSS"]
 github: "https://github.com/Mickaell22/Flores-Backend"
 demo: ""
 image: "/projects/flores-eternas/1-home.png"
@@ -18,14 +18,16 @@ Cliente real — tienda de flores de tela artesanales que necesitaba un e-commer
 
 ## Facturación electrónica SRI
 
-El sistema genera facturas electrónicas válidas para el Servicio de Rentas Internas de Ecuador. El flujo completo:
+El sistema arma el comprobante electrónico para el Servicio de Rentas Internas de Ecuador. Lo que está implementado:
 
-1. Generación del XML con la estructura requerida por el SRI
-2. Firma digital del documento con certificado electrónico
-3. Envío via SOAP al webservice del SRI
-4. Recepción y almacenamiento de la autorización
+1. Generación del XML con la estructura que exige el SRI
+2. Cálculo de la **clave de acceso de 49 dígitos**, con su dígito verificador por módulo 11
+3. Construcción del **sobre SOAP** y envío a los webservices de recepción y autorización
+4. Lectura y almacenamiento de la respuesta
 
-Esto no es una integración de API REST moderna — el SRI usa SOAP y XML con un esquema específico que muy pocos desarrolladores juniors conocen.
+Esto no es una integración de API REST moderna — el SRI usa SOAP y XML con un esquema específico que muy pocos desarrolladores conocen.
+
+**Estado honesto:** corre contra el **ambiente de pruebas** del SRI (`SRI_AMBIENTE=1`) y la **firma XAdES-BES está pendiente**, marcada como TODO en el servicio. Sin esa firma no hay comprobante autorizado en producción, así que lo cuento por lo que es: el XML, la clave de acceso y el transporte SOAP resueltos; la firma digital, no.
 
 ## Funcionalidades del e-commerce
 
@@ -35,16 +37,16 @@ Esto no es una integración de API REST moderna — el SRI usa SOAP y XML con un
 - Panel de administración con gestión de inventario
 - Historial de pedidos y facturas por cliente
 
-## Seguridad
+## Seguridad y validación
 
-Rate limiting, Helmet para cabeceras HTTP, sanitización de inputs. No fue un proyecto académico — manejó datos reales de clientes.
+Rate limiting, Helmet para cabeceras HTTP y sanitización de inputs. Toda la entrada pasa por **esquemas Zod** (auth, productos, pedidos, usuarios, clientes y SRI) aplicados desde un middleware único, así ningún controlador recibe datos sin validar. No fue un proyecto académico — manejó datos reales de clientes.
 
 ## Stack técnico
 
-**Backend:** Node.js + Express + Prisma ORM + PostgreSQL. JWT para autenticación.
+**Backend:** Node.js + Express 5 + Prisma ORM + PostgreSQL. JWT para autenticación, Zod para validación, Jest + Supertest para las pruebas.
 
-**Frontend:** React con Tailwind CSS.
+**Frontend:** React con Tailwind CSS y Zustand para el estado global.
 
 ## Por qué diferencia
 
-La integración con el SRI ecuatoriano es un nicho técnico muy específico. La mayoría de desarrolladores con años de experiencia en Ecuador nunca la han implementado. En una entrevista con una empresa ecuatoriana, esto abre conversaciones diferentes.
+La integración con el SRI ecuatoriano es un nicho técnico muy específico. La mayoría de desarrolladores con años de experiencia en Ecuador nunca la han tocado. En una entrevista con una empresa ecuatoriana, esto abre conversaciones diferentes — sobre todo si se sabe exactamente qué parte está resuelta y cuál no.

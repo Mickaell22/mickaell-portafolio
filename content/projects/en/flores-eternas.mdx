@@ -1,8 +1,8 @@
 ---
 title: Flores Eternas
 area: fullstack
-description: E-commerce for a handmade fabric flower shop with electronic invoicing fully integrated with Ecuador's SRI tax authority. XML generation, digital signature, SOAP submission and invoice authorization.
-stack: ["Node.js", "Express", "Prisma", "PostgreSQL", "React", "Tailwind CSS"]
+description: "E-commerce for a handmade fabric flower shop integrated with Ecuador's SRI tax authority: invoice XML generation, 49-digit access key and SOAP submission to the reception and authorization webservices."
+stack: ["Node.js", "Express", "Prisma", "PostgreSQL", "Zod", "React", "Zustand", "Tailwind CSS"]
 github: "https://github.com/Mickaell22/Flores-Backend"
 demo: ""
 image: "/projects/flores-eternas/1-home.png"
@@ -18,14 +18,16 @@ A real client — a handmade fabric flower shop that needed a full e-commerce pl
 
 ## Electronic invoicing — SRI
 
-The system generates valid electronic invoices for Ecuador's Servicio de Rentas Internas (tax authority). The full flow:
+The system builds the electronic receipt for Ecuador's Servicio de Rentas Internas (tax authority). What is implemented:
 
-1. XML generation with the structure required by the SRI
-2. Digital signing of the document with an electronic certificate
-3. SOAP submission to the SRI webservice
-4. Receipt and storage of the authorization
+1. XML generation with the structure the SRI requires
+2. Computation of the **49-digit access key**, with its mod-11 check digit
+3. Building the **SOAP envelope** and submitting it to the reception and authorization webservices
+4. Reading and storing the response
 
-This is not a modern REST API integration — the SRI uses SOAP and XML with a specific schema that very few junior developers have worked with.
+This is not a modern REST API integration — the SRI uses SOAP and XML with a specific schema that very few developers have worked with.
+
+**Honest status:** it runs against the SRI's **test environment** (`SRI_AMBIENTE=1`) and the **XAdES-BES signature is still pending**, marked as a TODO in the service. Without that signature there is no authorized receipt in production, so I describe it for what it is: XML, access key and SOAP transport solved; digital signature, not yet.
 
 ## E-commerce features
 
@@ -35,16 +37,16 @@ This is not a modern REST API integration — the SRI uses SOAP and XML with a s
 - Admin panel with inventory management
 - Order and invoice history per customer
 
-## Security
+## Security and validation
 
-Rate limiting, Helmet for HTTP headers, input sanitization. This was not an academic project — it handled real customer data.
+Rate limiting, Helmet for HTTP headers and input sanitization. Every input goes through **Zod schemas** (auth, products, orders, users, customers and SRI) applied from a single middleware, so no controller ever receives unvalidated data. This was not an academic project — it handled real customer data.
 
 ## Tech stack
 
-**Backend:** Node.js + Express + Prisma ORM + PostgreSQL. JWT for authentication.
+**Backend:** Node.js + Express 5 + Prisma ORM + PostgreSQL. JWT for authentication, Zod for validation, Jest + Supertest for the test suite.
 
-**Frontend:** React with Tailwind CSS.
+**Frontend:** React with Tailwind CSS and Zustand for global state.
 
 ## Why it stands out
 
-Ecuador's SRI integration is a very specific technical niche. Most experienced developers in Ecuador have never implemented it. In an interview with an Ecuadorian company, it opens very different conversations.
+Ecuador's SRI integration is a very specific technical niche. Most experienced developers in Ecuador have never touched it. In an interview with an Ecuadorian company it opens very different conversations — especially if you know exactly which part is solved and which isn't.

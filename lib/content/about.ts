@@ -47,9 +47,9 @@ const es: AboutContent = {
       highlights: [
         "Backend en Django 5 + DRF + PostgreSQL con arquitectura multitenancy",
         "Chat IA con Claude Haiku y transcripción de pedidos por voz con Whisper",
-        "App móvil en Flutter + Riverpod para gestión de inventario y pedidos en tiempo real",
+        "App móvil en Flutter + Riverpod + go_router, consumiendo la API REST con dio y token en almacenamiento seguro",
       ],
-      stack: ["Django", "DRF", "PostgreSQL", "Flutter", "Riverpod", "Claude API", "Whisper"],
+      stack: ["Django", "DRF", "PostgreSQL", "Flutter", "Riverpod", "dio", "Claude API", "Whisper"],
     },
     {
       company: "Freelance",
@@ -59,11 +59,12 @@ const es: AboutContent = {
       summary:
         "Proyectos para clientes reales: sistema clínico integral, facturador propio en producción, simulador de exámenes universitario.",
       highlights: [
-        "Centro Médico Tía Glenda: sistema clínico con 190+ componentes en React + MUI, cliente pagado",
+        "Centro Médico Tía Glenda: sistema clínico con ~130 componentes React + MUI, RBAC de 3 roles y 23 suites de tests pytest, cliente pagado",
         "Facturador: sistema de facturación y pedidos en producción en novamicktools.com",
+        "Flores Eternas: e-commerce con integración al SRI — XML de factura, clave de acceso de 49 dígitos y envío SOAP",
         "SimuladorPreguntas: anticheating, roles, exportación XML/Excel, deploy en VPS universitario",
       ],
-      stack: ["React", "FastAPI", "Python", "PostgreSQL", "Flutter", "Firebase", "Vite", "Tailwind CSS"],
+      stack: ["React", "Node.js", "Express", "FastAPI", "Python", "PostgreSQL", "Prisma", "Docker", "Tailwind CSS"],
     },
     {
       company: "Área de Nivelación — Universidad de Guayaquil",
@@ -104,12 +105,14 @@ const es: AboutContent = {
     },
   ],
   skillGroups: [
-    { label: "Backend", skills: ["Python", "Django", "FastAPI", "Node.js", "Express", "C#", "Java"] },
-    { label: "Frontend", skills: ["React", "Next.js", "TypeScript", "Tailwind CSS", "Vite"] },
-    { label: "Mobile", skills: ["Flutter", "Dart", "Riverpod", "Firebase"] },
-    { label: "Bases de datos", skills: ["PostgreSQL", "SQLAlchemy", "Alembic", "Firebase Firestore", "SQLite"] },
-    { label: "Herramientas", skills: ["Git", "Docker", "Linux", "VPS", "Railway", "Cloudinary", "Postman"] },
-    { label: "Ciberseguridad", skills: ["Kali Linux", "Metasploit", "Nmap", "Wireshark"] },
+    { label: "Backend", skills: ["Python", "Django", "DRF", "FastAPI", "Flask", "Node.js", "Express", "NestJS", "C#", "Java", "PHP"] },
+    { label: "Frontend", skills: ["React", "Next.js", "TypeScript", "Redux Toolkit", "Zustand", "Material UI", "Tailwind CSS", "Vite"] },
+    { label: "Mobile", skills: ["Flutter", "Dart", "Riverpod", "React Native", "Expo"] },
+    { label: "Bases de datos", skills: ["PostgreSQL", "MySQL", "SQLite", "Firestore", "SQLAlchemy", "Prisma", "Sequelize", "TypeORM"] },
+    { label: "Testing", skills: ["pytest", "Jest", "Supertest", "Vitest", "Testing Library", "JUnit", "Mockito"] },
+    { label: "DevOps", skills: ["Git", "Docker", "nginx", "GitHub Actions", "Railway", "VPS", "Linux"] },
+    { label: "IA", skills: ["Anthropic SDK", "OpenAI SDK", "Whisper", "MCP", "RAG", "ChromaDB"] },
+    { label: "Ciberseguridad", skills: ["Kali Linux", "Nmap", "Wireshark"] },
   ],
 }
 
@@ -130,9 +133,9 @@ const en: AboutContent = {
       highlights: [
         "Backend in Django 5 + DRF + PostgreSQL with a multitenant architecture",
         "AI chat with Claude Haiku and voice order transcription with Whisper",
-        "Flutter + Riverpod mobile app for real-time inventory and order management",
+        "Flutter + Riverpod + go_router mobile app consuming the REST API with dio, with the token in secure storage",
       ],
-      stack: ["Django", "DRF", "PostgreSQL", "Flutter", "Riverpod", "Claude API", "Whisper"],
+      stack: ["Django", "DRF", "PostgreSQL", "Flutter", "Riverpod", "dio", "Claude API", "Whisper"],
     },
     {
       company: "Freelance",
@@ -142,11 +145,12 @@ const en: AboutContent = {
       summary:
         "Projects for real clients: a complete clinical system, my own invoicing tool in production, and a university exam simulator.",
       highlights: [
-        "Centro Médico Tía Glenda: clinical system with 190+ components in React + MUI, paid client",
+        "Centro Médico Tía Glenda: clinical system with ~130 React + MUI components, 3-role RBAC and 23 pytest suites, paid client",
         "Facturador: invoicing and order system in production at novamicktools.com",
+        "Flores Eternas: e-commerce integrated with Ecuador's SRI — invoice XML, 49-digit access key and SOAP submission",
         "SimuladorPreguntas: anti-cheating, roles, XML/Excel export, deployed on a university VPS",
       ],
-      stack: ["React", "FastAPI", "Python", "PostgreSQL", "Flutter", "Firebase", "Vite", "Tailwind CSS"],
+      stack: ["React", "Node.js", "Express", "FastAPI", "Python", "PostgreSQL", "Prisma", "Docker", "Tailwind CSS"],
     },
     {
       company: "Leveling Department — University of Guayaquil",
@@ -187,12 +191,14 @@ const en: AboutContent = {
     },
   ],
   skillGroups: [
-    { label: "Backend", skills: ["Python", "Django", "FastAPI", "Node.js", "Express", "C#", "Java"] },
-    { label: "Frontend", skills: ["React", "Next.js", "TypeScript", "Tailwind CSS", "Vite"] },
-    { label: "Mobile", skills: ["Flutter", "Dart", "Riverpod", "Firebase"] },
-    { label: "Databases", skills: ["PostgreSQL", "SQLAlchemy", "Alembic", "Firebase Firestore", "SQLite"] },
-    { label: "Tools", skills: ["Git", "Docker", "Linux", "VPS", "Railway", "Cloudinary", "Postman"] },
-    { label: "Cybersecurity", skills: ["Kali Linux", "Metasploit", "Nmap", "Wireshark"] },
+    { label: "Backend", skills: ["Python", "Django", "DRF", "FastAPI", "Flask", "Node.js", "Express", "NestJS", "C#", "Java", "PHP"] },
+    { label: "Frontend", skills: ["React", "Next.js", "TypeScript", "Redux Toolkit", "Zustand", "Material UI", "Tailwind CSS", "Vite"] },
+    { label: "Mobile", skills: ["Flutter", "Dart", "Riverpod", "React Native", "Expo"] },
+    { label: "Databases", skills: ["PostgreSQL", "MySQL", "SQLite", "Firestore", "SQLAlchemy", "Prisma", "Sequelize", "TypeORM"] },
+    { label: "Testing", skills: ["pytest", "Jest", "Supertest", "Vitest", "Testing Library", "JUnit", "Mockito"] },
+    { label: "DevOps", skills: ["Git", "Docker", "nginx", "GitHub Actions", "Railway", "VPS", "Linux"] },
+    { label: "AI", skills: ["Anthropic SDK", "OpenAI SDK", "Whisper", "MCP", "RAG", "ChromaDB"] },
+    { label: "Cybersecurity", skills: ["Kali Linux", "Nmap", "Wireshark"] },
   ],
 }
 

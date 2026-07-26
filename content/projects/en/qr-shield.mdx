@@ -1,8 +1,8 @@
 ---
 title: qr-shield
 area: cyber
-description: Malicious QR code detector to prevent quishing attacks. Chromium extension + Android app that validates URLs against Google Safe Browsing, VirusTotal and PhishTank before opening them.
-stack: ["Python", "Chrome Extension", "Android", "VirusTotal API", "Google Safe Browsing", "PhishTank"]
+description: Malicious QR detection engine to prevent quishing attacks. A FastAPI service that scores a URL with static heuristics — punycode, abuse-prone TLDs, shorteners, literal IPs — before anyone opens it.
+stack: ["Python", "FastAPI", "Pydantic", "pytest"]
 github: "https://github.com/Mickaell22/qr-shield"
 demo: ""
 image: "/projects/qr-shield/1-terminal.png"
@@ -13,27 +13,30 @@ role: Proyecto propio
 
 ## Context
 
-**Quishing** (QR phishing) is a growing attack vector: QR codes in restaurants, signs and emails that redirect to malicious sites. Users scan without verifying where they're going. qr-shield intercepts that URL before opening it.
+**Quishing** (QR phishing) is a growing attack vector: QR codes in restaurants, signs and emails that redirect to malicious sites. Users scan without checking where they're going, because a QR code can't be read at a glance. qr-shield analyzes that URL before it opens.
 
-## How it works
+This is my thesis project. It is **in development (`v0.1.0-dev`)**: what exists today is the detection engine.
 
-1. The user scans or detects a QR code
-2. The extracted URL is validated against three sources simultaneously:
-   - **Google Safe Browsing API** — Google's database of malicious URLs
-   - **VirusTotal API** — analysis with 70+ antivirus engines
-   - **PhishTank** — community database of phishing sites
-3. If any source flags it as malicious, it's blocked and an alert is shown
-4. If safe, it opens normally
+## What it does today
 
-## Platforms
+A FastAPI REST service exposes `POST /api/v1/analyze`: it takes a URL and returns a verdict, a score, and the reasons behind it.
 
-- **Chromium extension:** intercepts QR codes detected on web pages
-- **Android app:** scans with the device camera in real time
+The L1 layer is static heuristics, each with its own weight:
 
-## Academic context
+- **Punycode** (`xn--`, 50 pts) — the most expensive one, because it underpins homograph attacks: domains that look identical to a legitimate one but use characters from another alphabet
+- **Literal IP** instead of a domain (40 pts)
+- **Abuse-prone TLD** (35 pts) — Freenom freebies, cheap-registration gTLDs, and the ones that collide with file extensions (`.zip`, `.mov`)
+- **Excessively long URL**, over 100 characters (30 pts)
+- **Known shortener** (25 pts) — a curated list of 15 domains
 
-University thesis project. Developed to demonstrate a multi-layer detection system applicable to real environments.
+Hits are summed and the result maps to a verdict. All of it under test coverage.
 
-## Why it matters
+## Deliberate decisions
 
-Unlike simply validating with a single source, the system combines three with consensus logic — a URL can pass VirusTotal and still be in PhishTank. The multi-layer detection reduces false negatives.
+The shortener and TLD lists are **static and hand-curated**, not an external feed. That's a decision, not an oversight: for the scope of a thesis, a short explainable list is worth more than a source someone has to keep alive — and it's documented in the code along with its upgrade path.
+
+I also deliberately left large-country ccTLDs out of the suspicious list: the volume of legitimate traffic would generate too many false positives for the weight they'd contribute.
+
+## What's missing
+
+The design lays out L1–L5 layers — domain reputation, content analysis, a scanning client — which today are **roadmap, not code**. I'd rather put it plainly: the heuristics engine works and is tested; the rest doesn't exist yet.

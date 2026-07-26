@@ -1,8 +1,8 @@
 ---
 title: qr-shield
 area: cyber
-description: Detector de QR maliciosos para prevenir ataques de quishing. Extensión de Chromium + app Android que valida URLs contra Google Safe Browsing, VirusTotal y PhishTank antes de abrirlas.
-stack: ["Python", "Chrome Extension", "Android", "VirusTotal API", "Google Safe Browsing", "PhishTank"]
+description: Motor de detección de QR maliciosos para prevenir ataques de quishing. API en FastAPI que puntúa una URL con heurísticas estáticas — punycode, TLDs de abuso, acortadores, IP literal — antes de que alguien la abra.
+stack: ["Python", "FastAPI", "Pydantic", "pytest"]
 github: "https://github.com/Mickaell22/qr-shield"
 demo: ""
 image: "/projects/qr-shield/1-terminal.png"
@@ -13,27 +13,30 @@ role: Proyecto propio
 
 ## Contexto
 
-El **quishing** (QR phishing) es un vector de ataque creciente: códigos QR en restaurantes, carteles y emails que redirigen a sitios maliciosos. Los usuarios escanean sin verificar a dónde van. qr-shield intercepta esa URL antes de abrirla.
+El **quishing** (QR phishing) es un vector de ataque creciente: códigos QR en restaurantes, carteles y correos que redirigen a sitios maliciosos. El usuario escanea sin verificar a dónde va, porque un QR no se puede leer a simple vista. qr-shield analiza esa URL antes de abrirla.
 
-## Cómo funciona
+Es mi proyecto de tesis. Está **en desarrollo (`v0.1.0-dev`)**: lo que existe hoy es el motor de detección.
 
-1. El usuario escanea o detecta un código QR
-2. La URL extraída se valida contra tres fuentes simultáneamente:
-   - **Google Safe Browsing API** — base de datos de Google de URLs maliciosas
-   - **VirusTotal API** — análisis con 70+ motores antivirus
-   - **PhishTank** — base de datos comunitaria de sitios de phishing
-3. Si alguna fuente la marca como maliciosa, se bloquea y se muestra una alerta
-4. Si es segura, se abre normalmente
+## Qué hace hoy
 
-## Plataformas
+Una API REST en FastAPI expone `POST /api/v1/analyze`: recibe una URL y devuelve un veredicto, un puntaje y las razones que lo motivaron.
 
-- **Extensión de Chromium:** intercepta QRs detectados en páginas web
-- **App Android:** escanea con la cámara del dispositivo en tiempo real
+La capa L1 son heurísticas estáticas, cada una con su peso:
 
-## Contexto académico
+- **Punycode** (`xn--`, 50 pts) — el más caro, porque es la base de los ataques homógrafos: dominios que se ven idénticos a uno legítimo pero usan caracteres de otro alfabeto
+- **IP literal** en vez de dominio (40 pts)
+- **TLD con tasa de abuso alta** (35 pts) — gratuitos de Freenom, gTLD de registro barato y los que colisionan con extensiones de archivo (`.zip`, `.mov`)
+- **URL excesivamente larga**, más de 100 caracteres (30 pts)
+- **Acortador conocido** (25 pts) — lista curada de 15 dominios
 
-Proyecto de tesis universitaria. Desarrollado para demostrar un sistema de detección multicapa aplicable a entornos reales.
+Los aciertos se suman y el resultado se traduce a un veredicto. Todo con cobertura de tests.
 
-## Por qué importa
+## Decisiones que tomé a conciencia
 
-A diferencia de simplemente validar con una sola fuente, el sistema combina tres con lógica de consenso — una URL puede pasar VirusTotal y aún estar en PhishTank. La detección multicapa reduce los falsos negativos.
+Las listas de acortadores y de TLDs son **estáticas y curadas a mano**, no un feed externo. Es una decisión, no un olvido: para el alcance de la tesis una lista corta y explicable vale más que una fuente que hay que mantener viva, y está documentada en el código junto a su camino de actualización.
+
+También dejé fuera a propósito los ccTLD de países grandes de la lista de sospechosos: el volumen de tráfico legítimo genera demasiados falsos positivos para el peso que aportarían.
+
+## Lo que falta
+
+El diseño contempla capas L1–L5 — reputación de dominios, análisis de contenido, cliente de escaneo — que hoy son **roadmap**, no código. Prefiero decirlo así: el motor de heurísticas funciona y está testeado; el resto todavía no existe.

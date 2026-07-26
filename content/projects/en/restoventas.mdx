@@ -1,0 +1,55 @@
+---
+title: RestoVentas
+area: fullstack
+description: Mobile point of sale for a restaurant with voice-driven order taking. The waiter dictates the order, an LLM turns it into cart items, and the backend never trusts that output — it validates it against the real catalog.
+stack: ["NestJS", "TypeORM", "PostgreSQL", "React Native", "Expo", "TypeScript", "Zustand"]
+github: "https://github.com/Mickaell22/restoventas-backend"
+demo: ""
+image: ""
+featured: true
+date: "2026-07-20"
+role: Proyecto propio
+---
+
+## Context
+
+Week one of a personal three-week challenge, one technology per week. This one was React Native: a daily-use app to record restaurant sales, with its own NestJS backend shared across all three weeks.
+
+The real problem: a waiter at peak hour doesn't want to tap through a screen product by product. They want to say *"two chicken plates and one large soda"* and keep serving tables.
+
+## Voice-driven order taking
+
+The full flow:
+
+1. The waiter holds the mic and dictates the order
+2. The recording **stops on its own** when it detects silence — an audio-level sample every 200 ms feeds a detector that decides when to stop (silence, no speech, or max duration). If there was never any speech, the audio isn't even uploaded
+3. The audio goes to `/ai/transcribe` (Whisper) and comes back as text
+4. The text goes to `/ai/parse-order`, where the LLM turns it into items alongside the business's active catalog
+5. The items land in the cart and the waiter corrects whatever is off before registering the sale
+
+## The decision that matters: don't trust the LLM
+
+A model can return a `productId` that doesn't exist, a negative quantity, a duplicated product, or JSON wrapped in loose text. If that reaches the cart, the customer gets charged wrong.
+
+So the model's output goes through a pure sanitization function before touching anything:
+
+- Drops any `productId` that isn't in the real catalog
+- Coerces quantity to a positive integer, with a cap
+- Deduplicates products by summing quantities
+- Extracts the JSON even when the model returns it surrounded by text
+
+It's deliberately isolated from the framework, as pure logic, so it can be tested without booting the app. The same idea repeats in the cart: total calculation lives apart from the UI and has its own test.
+
+## The backend doesn't trust the app either
+
+`POST /sales` accepts only `{ productId, qty }`. Prices and totals are **recalculated on the server** against the database; the client can't propose a price. Same rule as with the LLM, applied at the other end.
+
+## Tech stack
+
+**Backend:** NestJS 11 with TypeORM (entities and versioned migrations) on PostgreSQL. Auth with Passport-JWT and a global guard, DTOs validated with class-validator, and rate limiting via throttler. Tested with Jest.
+
+**App:** React Native 0.86 + Expo 57 in TypeScript. React Navigation, Zustand for session and cart, expo-audio for recording, and SecureStore for the token, hydrating the session before deciding the first screen.
+
+## One bug that took a while
+
+The "today" history drifted by a day depending on the hour. The `created_at` column stored a timestamp without a time zone: in Ecuador (UTC-5), anything recorded after 19:00 fell into the next day as far as the database was concerned. Migrating it to `timestamptz` fixed it — a reminder that dates are never just dates.

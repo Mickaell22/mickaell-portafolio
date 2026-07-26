@@ -2,7 +2,7 @@
 title: MotoVox
 area: fullstack
 description: Real-time P2P motorbike intercom over local WiFi. Flutter + native C compiled via FFI for engine and wind noise filtering with RNNoise.
-stack: ["Flutter", "Dart", "C", "WebRTC", "FFI", "RNNoise"]
+stack: ["Flutter", "Dart", "C", "FFI", "TCP/UDP sockets", "RNNoise"]
 github: "https://github.com/Mickaell22/Proyecto-MotoVox"
 demo: ""
 image: ""
@@ -17,7 +17,9 @@ I wanted to communicate with my passenger on a motorbike without relying on cell
 
 ## How it works
 
-Rider and passenger connect over the same WiFi network (or hotspot). The connection is established by scanning a QR code — no manual IP configuration. Audio flows in real time between both devices with low latency.
+Rider and passenger connect over the same WiFi network (or hotspot). Each device advertises its room over **UDP broadcast**, so the other one discovers it on its own; the connection is then sealed by scanning a QR code — no manual IP configuration. Audio travels over a **raw TCP socket** with `tcpNoDelay` enabled, so the kernel doesn't hold packets back waiting to fill the buffer: in a voice conversation, half a second of delay is already annoying.
+
+There is no intermediary server and no RTC library: the transport is a plain socket, which on an isolated LAN is simpler and more predictable than negotiating ICE/STUN for two devices that already see each other on the same network.
 
 ## The technical challenge
 
@@ -28,8 +30,9 @@ This means the audio processing runs natively on the phone's processor, without 
 ## Tech stack
 
 - **Flutter + Dart:** cross-platform UI and session management
-- **WebRTC:** P2P audio channel over local WiFi
-- **Native C (ARM64):** RNNoise compiled for ARM architecture
+- **Raw TCP sockets:** P2P audio channel over local WiFi, with `tcpNoDelay`
+- **UDP broadcast:** room discovery on the network with no central registry
+- **Native C (ARM64):** RNNoise compiled with the NDK for ARM architecture
 - **FFI:** bridge between Dart and native C code
 - **QR:** connection without IP configuration
 

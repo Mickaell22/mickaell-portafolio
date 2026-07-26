@@ -1,0 +1,55 @@
+---
+title: RestoVentas
+area: fullstack
+description: Punto de venta móvil para restaurante con toma de pedido por voz. El mesero dicta el pedido, un LLM lo convierte en ítems del carrito y el backend nunca confía en esa salida — la valida contra el catálogo real.
+stack: ["NestJS", "TypeORM", "PostgreSQL", "React Native", "Expo", "TypeScript", "Zustand"]
+github: "https://github.com/Mickaell22/restoventas-backend"
+demo: ""
+image: ""
+featured: true
+date: "2026-07-20"
+role: Proyecto propio
+---
+
+## Contexto
+
+Primera semana de un reto personal de tres semanas, una tecnología por semana. Esta fue React Native: una app de uso diario para registrar ventas de un restaurante, con backend propio en NestJS que las tres semanas comparten.
+
+El problema real: un mesero en hora pico no quiere tocar una pantalla producto por producto. Quiere decir *"dos secos de pollo y una cola grande"* y seguir atendiendo.
+
+## Toma de pedido por voz
+
+El flujo completo:
+
+1. El mesero mantiene el micrófono y dicta el pedido
+2. La grabación **se corta sola** cuando detecta silencio — un muestreo del nivel de audio cada 200 ms alimenta un detector que decide cuándo parar (silencio, sin voz o duración máxima). Si nunca hubo voz, el audio ni se sube
+3. El audio va a `/ai/transcribe` (Whisper) y vuelve como texto
+4. El texto va a `/ai/parse-order`, donde el LLM lo convierte en ítems junto con el catálogo activo del negocio
+5. Los ítems entran al carrito y el mesero corrige lo que haga falta antes de registrar
+
+## La decisión que importa: no confiar en el LLM
+
+Un modelo puede devolver un `productId` que no existe, una cantidad negativa, un producto repetido o un JSON envuelto en texto suelto. Si eso llega al carrito, se cobra mal.
+
+Por eso la salida del modelo pasa por una función pura de saneamiento antes de tocar nada:
+
+- Descarta cualquier `productId` que no esté en el catálogo real
+- Convierte la cantidad a entero positivo, con tope
+- Deduplica productos sumando cantidades
+- Extrae el JSON aunque el modelo lo devuelva con texto alrededor
+
+Está aislada del framework a propósito, en lógica pura, para poder testearla sin levantar la app. La misma idea se repite en el carrito: la lógica de totales vive separada de la UI y tiene su propio test.
+
+## El backend tampoco confía en la app
+
+`POST /sales` recibe únicamente `{ productId, qty }`. Los precios y el total **los recalcula el servidor** consultando la base; el cliente no puede proponer un precio. Es la misma regla que con el LLM, aplicada al otro extremo.
+
+## Stack técnico
+
+**Backend:** NestJS 11 con TypeORM (entidades y migraciones versionadas) sobre PostgreSQL. Auth con Passport-JWT y guard global, DTOs validados con class-validator y rate limiting con throttler. Tests con Jest.
+
+**App:** React Native 0.86 + Expo 57 en TypeScript. React Navigation, Zustand para sesión y carrito, expo-audio para la grabación y SecureStore para el token, con hidratación de la sesión antes de decidir la primera pantalla.
+
+## Un detalle que costó encontrar
+
+El historial "de hoy" se corría de día según la hora. La columna `created_at` guardaba fecha sin zona horaria: en Ecuador (UTC-5) todo lo registrado después de las 19:00 caía en el día siguiente para la base. Migrarla a `timestamptz` lo resolvió — un recordatorio de que las fechas nunca son solo fechas.

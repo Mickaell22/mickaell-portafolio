@@ -2,7 +2,7 @@
 title: Centro Tía Glenda
 area: fullstack
 description: Comprehensive clinical management system for a special therapy center. Therapeutic and pedagogical modules, patients, staff, PDF reports and internal chat.
-stack: ["React", "Material UI", "Python", "PostgreSQL"]
+stack: ["React", "Material UI", "Redux Toolkit", "Flask", "PostgreSQL", "pytest"]
 github: "https://github.com/Mickaell22/ProjectTiaGlendaBackend"
 demo: ""
 image: "/projects/centro-tia-glenda/2-dashboard.png"
@@ -31,13 +31,13 @@ The system covers the center's complete operation:
 
 ## Project size
 
-190+ components in the frontend. The largest project by lines of code I've delivered.
+~130 `.jsx` components (180 source files) in the frontend. The largest project by lines of code I've delivered.
 
 ## Tech stack
 
-**Frontend:** React with Material UI, Vite, Redux Toolkit, custom hooks per entity. Role-protected routes. Theme customizable from the backend (center name, colors, general settings).
+**Frontend:** React 19 with Material UI 7, Vite, custom hooks per entity, and Redux Toolkit for the layout layer (theme and sidebar); domain state runs through my own Context. Role-protected routes via HOCs. Theme customizable from the backend (center name, colors, general settings).
 
-**Backend:** Python with a REST API. PostgreSQL. Deployed on Railway.
+**Backend:** Flask with a REST API documented in Swagger (flask-restx), JWT and PostgreSQL. Layered Component/Service architecture with **23 pytest suites** — one per API module plus an integration suite. Deployed on Railway.
 
 ## What I learned
 

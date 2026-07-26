@@ -2,7 +2,7 @@
 title: MotoVox
 area: fullstack
 description: Intercomunicador P2P para moto en tiempo real sobre WiFi local. Flutter + C nativo compilado via FFI para filtro de ruido de motor y viento con RNNoise.
-stack: ["Flutter", "Dart", "C", "WebRTC", "FFI", "RNNoise"]
+stack: ["Flutter", "Dart", "C", "FFI", "Sockets TCP/UDP", "RNNoise"]
 github: "https://github.com/Mickaell22/Proyecto-MotoVox"
 demo: ""
 image: ""
@@ -17,7 +17,9 @@ Quería comunicarme con mi copiloto en moto sin depender de señal celular ni de
 
 ## Cómo funciona
 
-Conductor y copiloto se conectan por la misma red WiFi (o hotspot). La conexión se establece escaneando un código QR — sin configurar IPs manualmente. El audio fluye en tiempo real entre los dos dispositivos con latencia baja.
+Conductor y copiloto se conectan por la misma red WiFi (o hotspot). Cada equipo anuncia su sala por **broadcast UDP**, así que el otro la descubre solo; la conexión se cierra escaneando un código QR — sin configurar IPs manualmente. El audio viaja por un **socket TCP crudo** con `tcpNoDelay` activado para que el kernel no acumule paquetes esperando llenar el búfer: en una conversación por voz, medio segundo de retraso ya molesta.
+
+No hay servidor intermediario ni librería de RTC: el transporte es socket puro, que sobre una LAN aislada es más simple y más predecible que negociar ICE/STUN para dos equipos que ya se ven en la misma red.
 
 ## El desafío técnico
 
@@ -28,8 +30,9 @@ Esto significa que el procesamiento de audio corre nativamente en el procesador 
 ## Stack técnico
 
 - **Flutter + Dart:** UI multiplataforma y gestión de la sesión
-- **WebRTC:** canal de audio P2P sobre WiFi local
-- **C nativo (ARM64):** RNNoise compilado para arquitectura ARM
+- **Sockets TCP crudos:** canal de audio P2P sobre WiFi local, con `tcpNoDelay`
+- **Broadcast UDP:** descubrimiento de salas en la red sin registro central
+- **C nativo (ARM64):** RNNoise compilado con el NDK para arquitectura ARM
 - **FFI:** puente entre Dart y el código C nativo
 - **QR:** conexión sin configuración de IPs
 

@@ -171,7 +171,9 @@ export function CvDocument({
         <View style={s.section}>
           <Text style={s.sectionTitle}>{cv.labels.experience}</Text>
           {cv.experiences.map((exp) => (
-            <View key={exp.company} style={s.entry}>
+            // wrap={false}: una entrada no se parte entre paginas (cabecera en
+            // una y sus bullets en la siguiente).
+            <View key={exp.company} style={s.entry} wrap={false}>
               <View style={s.entryHeader}>
                 <Text style={s.org}>{exp.company}</Text>
                 <Text style={s.right}>{exp.location}</Text>
@@ -191,7 +193,7 @@ export function CvDocument({
         <View style={s.section}>
           <Text style={s.sectionTitle}>{cv.labels.projects}</Text>
           {cv.projects.map((p) => (
-            <View key={p.name} style={s.entry}>
+            <View key={p.name} style={s.entry} wrap={false}>
               <View style={s.entryHeader}>
                 <Text style={s.org}>{p.name}</Text>
                 <Text style={s.right}>{p.link}</Text>
