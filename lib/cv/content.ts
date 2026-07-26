@@ -89,7 +89,7 @@ const es: CvContent = {
   ],
   experiences: [
     {
-      company: "EcuaInventario",
+      company: "Facilito",
       location: "Guayaquil, Ecuador",
       role: "Co-fundador y Desarrollador Fullstack",
       period: "Feb. 2026 – actual",
@@ -209,7 +209,7 @@ const en: CvContent = {
   ],
   experiences: [
     {
-      company: "EcuaInventario",
+      company: "Facilito",
       location: "Guayaquil, Ecuador",
       role: "Co-founder & Fullstack Developer",
       period: "Feb 2026 – present",

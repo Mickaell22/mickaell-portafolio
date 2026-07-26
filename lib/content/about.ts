@@ -38,7 +38,7 @@ const es: AboutContent = {
     "Trabajo con Python, React y Flutter, y me estoy especializando en ciberseguridad.",
   experiences: [
     {
-      company: "EcuaInventario",
+      company: "Facilito",
       role: "Co-fundador · Desarrollador fullstack",
       period: "Feb. 2026 — actual",
       current: true,
@@ -124,7 +124,7 @@ const en: AboutContent = {
     "I work with Python, React and Flutter, and I'm specializing in cybersecurity.",
   experiences: [
     {
-      company: "EcuaInventario",
+      company: "Facilito",
       role: "Co-founder · Fullstack Developer",
       period: "Feb 2026 — present",
       current: true,
