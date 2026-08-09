@@ -73,6 +73,13 @@ const es: CvContent = {
       note: "Promedio: 9.01 / 10 (escala 0–10, nota mínima de aprobación: 7)",
     },
     {
+      institution: "Universidad de Guayaquil — FCMF",
+      location: "Guayaquil, Ecuador",
+      degree: "Tech Lab: Servidor Web Local con GNU/Linux (40 horas)",
+      period: "Ago. 2026",
+      note: "Ubuntu Server sobre VM, SSH, UFW, permisos y stack LAMP (Apache, PHP, MariaDB)",
+    },
+    {
       institution: "Google / Coursera",
       location: "En línea",
       degree: "Certificado Profesional en Ciberseguridad",
@@ -85,6 +92,12 @@ const es: CvContent = {
       degree: "Certificado Profesional en Diseño UX",
       period: "2026 – en progreso",
       note: "2 de 8 cursos",
+    },
+    {
+      institution: "Academia de Ciberseguridad Hacker Mentor",
+      location: "En línea",
+      degree: "Curso de Ethical Hacking — Red Team (8 horas)",
+      period: "2023",
     },
   ],
   experiences: [
@@ -193,6 +206,13 @@ const en: CvContent = {
       note: "GPA: 9.01 / 10 (grading system: 0–10, minimum passing grade: 7)",
     },
     {
+      institution: "University of Guayaquil — FCMF",
+      location: "Guayaquil, Ecuador",
+      degree: "Tech Lab: Local Web Server with GNU/Linux (40 hours)",
+      period: "Aug 2026",
+      note: "Ubuntu Server on a VM, SSH, UFW, permissions and LAMP stack (Apache, PHP, MariaDB)",
+    },
+    {
       institution: "Google / Coursera",
       location: "Online",
       degree: "Professional Certificate in Cybersecurity",
@@ -205,6 +225,12 @@ const en: CvContent = {
       degree: "Professional Certificate in UX Design",
       period: "2026 – in progress",
       note: "2 of 8 courses",
+    },
+    {
+      institution: "Hacker Mentor Cybersecurity Academy",
+      location: "Online",
+      degree: "Ethical Hacking — Red Team course (8 hours)",
+      period: "2023",
     },
   ],
   experiences: [

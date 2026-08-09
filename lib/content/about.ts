@@ -90,6 +90,13 @@ const es: AboutContent = {
       note: "9no semestre",
     },
     {
+      institution: "Universidad de Guayaquil — FCMF",
+      degree: "Tech Lab: Servidor Web Local con GNU/Linux",
+      period: "Ago. 2026",
+      current: false,
+      note: "40 horas · Ubuntu Server, SSH, UFW, stack LAMP",
+    },
+    {
       institution: "Google / Coursera",
       degree: "Certificado de Ciberseguridad",
       period: "2026 — en curso",
@@ -102,6 +109,13 @@ const es: AboutContent = {
       period: "2026 — en curso",
       current: true,
       note: "2 de 8 cursos",
+    },
+    {
+      institution: "Academia de Ciberseguridad Hacker Mentor",
+      degree: "Ethical Hacking — Red Team",
+      period: "2023",
+      current: false,
+      note: "8 horas",
     },
   ],
   skillGroups: [
@@ -176,6 +190,13 @@ const en: AboutContent = {
       note: "9th semester",
     },
     {
+      institution: "University of Guayaquil — FCMF",
+      degree: "Tech Lab: Local Web Server with GNU/Linux",
+      period: "Aug 2026",
+      current: false,
+      note: "40 hours · Ubuntu Server, SSH, UFW, LAMP stack",
+    },
+    {
       institution: "Google / Coursera",
       degree: "Cybersecurity Certificate",
       period: "2026 — in progress",
@@ -188,6 +209,13 @@ const en: AboutContent = {
       period: "2026 — in progress",
       current: true,
       note: "2 of 8 courses",
+    },
+    {
+      institution: "Hacker Mentor Cybersecurity Academy",
+      degree: "Ethical Hacking — Red Team",
+      period: "2023",
+      current: false,
+      note: "8 hours",
     },
   ],
   skillGroups: [
