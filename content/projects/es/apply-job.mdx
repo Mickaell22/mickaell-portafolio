@@ -1,7 +1,7 @@
 ---
 title: ApplyJob
 area: fullstack
-description: Pipeline de automatización de postulaciones laborales. Descubre ofertas en 7 job boards, filtra por perfil técnico, genera cartas personalizadas con IA y puede postular automáticamente en ATS.
+description: Pipeline de agregación y matching de ofertas de empleo. Normaliza 13 fuentes heterogéneas a un esquema común, filtra en cascada, puntúa contra el perfil y genera cartas con un LLM.
 stack: ["Python", "Playwright", "httpx", "Anthropic SDK", "DeepSeek"]
 github: "https://github.com/Mickaell22/ApplyJob"
 demo: ""
@@ -13,23 +13,36 @@ role: Proyecto propio
 
 ## Contexto
 
-Buscar trabajo manualmente en múltiples plataformas es lento y repetitivo. Construí un pipeline completo que automatiza todo el proceso: desde descubrir las ofertas hasta generar la carta de presentación personalizada.
+Revisar ofertas en una docena de plataformas es lento, repetitivo y se hace mal: cada
+board tiene su formato, y el 90% de lo que devuelven no aplica al perfil. Construí un
+pipeline que agrega todas esas fuentes en un solo esquema, descarta lo que no encaja y
+me deja una lista corta para revisar a mano.
 
 ## Cómo funciona
 
-1. **Descubrimiento:** scraping de 7 job boards simultáneamente (GetOnBrd, Himalayas, We Work Remotely, 4 Day Week, Remote First Jobs, Working Nomads, Remotive)
-2. **Filtrado en cascada:** keywords técnicas → excluye senior/lead → excluye requisitos de 3+ años → filtra por ubicación remota real
-3. **Matching:** compara el stack de la oferta contra el perfil del candidato, descarta si el match es bajo
-4. **Generación de cartas:** carta personalizada por oferta usando DeepSeek via Anthropic SDK
-5. **Auto-apply:** Playwright llena y envía formularios en Workable, Greenhouse y GetOnBrd
+1. **Descubrimiento:** 13 fuentes con protocolos distintos — APIs JSON (GetOnBrd, Himalayas, 4 Day Week, Remote First Jobs, Working Nomads), RSS (We Work Remotely), la API de Algolia de Hacker News, HTML server-rendered (Computrabajo) y SPAs que hay que renderizar con Playwright headless (Multitrabajos, LinkedIn) — todas normalizadas a un mismo esquema
+2. **Filtrado en cascada:** keywords técnicas en el título → excluye senior/lead/arquitecto → excluye requisitos de "3+ años" → descarta ubicaciones incompatibles con la región del candidato
+3. **Matching:** extrae el stack del perfil y lo busca en la oferta con límite de palabra (sin eso `java` matchea `javascript`); el fit va por cantidad de coincidencias, no por porcentaje, porque el porcentaje se descalibra solo cuando el CV crece
+4. **Listado sin costo:** el descubrimiento no llama a ningún LLM. Vuelca un JSON de candidatas, deduplicado entre corridas
+5. **Carta on-demand:** solo para la oferta que elijo. El prompt está ordenado con lo constante primero (perfil, reglas) y la oferta al final, así el 75% se sirve desde el caché de prefijo del proveedor
 
 ## Escala real
 
-Una corrida típica procesa ~600 ofertas brutas y genera 50-80 cartas personalizadas en una sola ejecución.
+Una corrida típica procesa varios cientos de ofertas brutas y las reduce a 30-60
+candidatas nuevas. El resto se descarta antes de gastar un solo token.
+
+## Lo que más aprendí
+
+Un extractor mal anclado hizo que durante semanas el matcher puntuara con palabras
+sueltas del CV en vez de tecnologías, y la salida seguía siendo plausible. El fix fueron
+tres líneas; lo caro fue no tener cómo notarlo. Hoy hay un test de regresión que falla
+si vuelve a pasar.
 
 ## Stack técnico
 
-Python para todo el pipeline. httpx para scraping HTTP. Playwright para sitios con JS pesado y auto-apply en ATS. Anthropic SDK para generación de cartas. Soporte bilingüe ES/EN.
+Python en todo el pipeline. httpx + BeautifulSoup para las fuentes server-rendered,
+Playwright headless para las que exigen render de JS. Anthropic SDK contra DeepSeek para
+la generación de texto. Cartas bilingües ES/EN desde un mismo perfil.
 
 ## Estado
 

@@ -169,10 +169,10 @@ const es: CvContent = {
     {
       name: "ApplyJob",
       link: "github.com/Mickaell22/ApplyJob",
-      tagline: "Pipeline de postulación automática a empleos con IA",
+      tagline: "Pipeline de agregación y matching de ofertas de empleo con LLMs",
       stack: "Python · Playwright · LLMs",
       bullets: [
-        "Agregué 7 fuentes (APIs JSON, RSS, HTML) a un esquema común, con match contra el perfil, cartas por LLM con caché de prefijo (~80% menos tokens) y auto-postulación headless en ATS con Playwright.",
+        "Agregué 13 fuentes (APIs JSON, RSS, HTML y SPAs con Playwright headless) a un esquema común, con filtrado en cascada, matching contra el perfil y generación de cartas por LLM con el prompt ordenado para caché de prefijo (75% constante).",
       ],
     },
   ],
@@ -302,10 +302,10 @@ const en: CvContent = {
     {
       name: "ApplyJob",
       link: "github.com/Mickaell22/ApplyJob",
-      tagline: "AI-powered automated job application pipeline",
+      tagline: "Job posting aggregation and matching pipeline with LLMs",
       stack: "Python · Playwright · LLMs",
       bullets: [
-        "Aggregated 7 sources (JSON APIs, RSS, HTML) into a common schema, with profile matching, LLM cover letters using prefix caching (~80% fewer tokens) and headless ATS auto-apply via Playwright.",
+        "Aggregated 13 sources (JSON APIs, RSS, HTML and SPAs via headless Playwright) into a common schema, with cascading filters, profile matching and LLM cover letters whose prompt is ordered for prefix caching (75% constant).",
       ],
     },
   ],

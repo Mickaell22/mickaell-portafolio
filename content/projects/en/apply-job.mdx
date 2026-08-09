@@ -1,7 +1,7 @@
 ---
 title: ApplyJob
 area: fullstack
-description: Job application automation pipeline. Discovers jobs across 7 boards, filters by tech profile, generates personalized cover letters with AI, and can auto-apply on ATS platforms.
+description: Job posting aggregation and matching pipeline. Normalizes 13 heterogeneous sources into a common schema, filters in cascade, scores against the profile and drafts cover letters with an LLM.
 stack: ["Python", "Playwright", "httpx", "Anthropic SDK", "DeepSeek"]
 github: "https://github.com/Mickaell22/ApplyJob"
 demo: ""
@@ -13,23 +13,36 @@ role: Proyecto propio
 
 ## Context
 
-Manually searching for jobs across multiple platforms is slow and repetitive. I built a complete pipeline that automates the entire process — from discovering listings to generating a personalized cover letter.
+Going through a dozen job platforms by hand is slow, repetitive and easy to do badly:
+every board has its own format, and 90% of what they return doesn't fit the profile. I
+built a pipeline that aggregates all those sources into a single schema, drops what
+doesn't fit and leaves me a short list to review myself.
 
 ## How it works
 
-1. **Discovery:** scrapes 7 job boards simultaneously (GetOnBrd, Himalayas, We Work Remotely, 4 Day Week, Remote First Jobs, Working Nomads, Remotive)
-2. **Cascade filtering:** tech keywords → excludes senior/lead → excludes "3+ years of experience" requirements → filters for genuinely remote positions
-3. **Matching:** compares the job's stack against the candidate profile, discards low-match listings
-4. **Cover letter generation:** personalized letter per job using DeepSeek via the Anthropic SDK
-5. **Auto-apply:** Playwright fills and submits forms on Workable, Greenhouse and GetOnBrd
+1. **Discovery:** 13 sources with different protocols — JSON APIs (GetOnBrd, Himalayas, 4 Day Week, Remote First Jobs, Working Nomads), RSS (We Work Remotely), Hacker News via the Algolia API, server-rendered HTML (Computrabajo) and SPAs that must be rendered with headless Playwright (Multitrabajos, LinkedIn) — all normalized into one schema
+2. **Cascade filtering:** tech keywords in the title → excludes senior/lead/architect → excludes "3+ years of experience" requirements → drops locations incompatible with the candidate's region
+3. **Matching:** extracts the profile's stack and looks for it in the posting with word-boundary matching (without it, `java` matches `javascript`); fit is decided by the number of hits rather than a percentage, because a percentage recalibrates itself downward every time the CV grows
+4. **Zero-cost listing:** discovery never calls an LLM. It dumps a JSON of candidates, deduplicated across runs
+5. **Cover letter on demand:** only for the posting I pick. The prompt puts the constant part first (profile, rules) and the posting last, so 75% of it is served from the provider's prefix cache
 
 ## Real scale
 
-A typical run processes ~600 raw job listings and generates 50–80 personalized cover letters in a single execution.
+A typical run processes several hundred raw postings and narrows them down to 30-60 new
+candidates. The rest is discarded before spending a single token.
+
+## Biggest lesson
+
+A badly anchored extractor meant that for weeks the matcher was scoring against stray
+words from the CV instead of technologies — and the output still looked plausible. The
+fix was three lines; the expensive part was having no way to notice. There's a
+regression test for it now.
 
 ## Tech stack
 
-Python for the entire pipeline. httpx for HTTP scraping. Playwright for JS-heavy sites and ATS auto-apply. Anthropic SDK for letter generation. Bilingual support ES/EN.
+Python across the pipeline. httpx + BeautifulSoup for server-rendered sources, headless
+Playwright for the ones that require JS rendering. Anthropic SDK against DeepSeek for
+text generation. Bilingual ES/EN letters from a single profile.
 
 ## Status
 
