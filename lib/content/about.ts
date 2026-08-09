@@ -101,7 +101,7 @@ const es: AboutContent = {
       degree: "Certificado de Ciberseguridad",
       period: "2026 — en curso",
       current: true,
-      note: "1 de 4 cursos (Foundations completado)",
+      note: "1 de 9 cursos (Foundations completado)",
     },
     {
       institution: "Google / Coursera",
@@ -201,7 +201,7 @@ const en: AboutContent = {
       degree: "Cybersecurity Certificate",
       period: "2026 — in progress",
       current: true,
-      note: "1 of 4 courses (Foundations completed)",
+      note: "1 of 9 courses (Foundations completed)",
     },
     {
       institution: "Google / Coursera",

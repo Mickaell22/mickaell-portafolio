@@ -84,7 +84,7 @@ const es: CvContent = {
       location: "En línea",
       degree: "Certificado Profesional en Ciberseguridad",
       period: "2026 – en progreso",
-      note: "1 de 4 cursos (Foundations completado)",
+      note: "1 de 9 cursos (Foundations completado)",
     },
     {
       institution: "Google / Coursera",
@@ -217,7 +217,7 @@ const en: CvContent = {
       location: "Online",
       degree: "Professional Certificate in Cybersecurity",
       period: "2026 – in progress",
-      note: "1 of 4 courses (Foundations completed)",
+      note: "1 of 9 courses (Foundations completed)",
     },
     {
       institution: "Google / Coursera",
