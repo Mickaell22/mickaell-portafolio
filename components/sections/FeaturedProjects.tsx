@@ -1,4 +1,5 @@
-import Link from "next/link"
+import { useTranslations } from "next-intl"
+import { Link } from "@/i18n/navigation"
 import { ProjectCard } from "@/components/content/ProjectCard"
 import type { Project } from "@/types/content"
 
@@ -7,6 +8,8 @@ interface FeaturedProjectsProps {
 }
 
 export function FeaturedProjects({ projects }: FeaturedProjectsProps) {
+  const t = useTranslations("featured")
+
   if (projects.length === 0) return null
 
   return (
@@ -14,17 +17,17 @@ export function FeaturedProjects({ projects }: FeaturedProjectsProps) {
       <div className="mb-8 flex items-end justify-between">
         <div>
           <h2 className="text-lg font-semibold text-foreground">
-            Proyectos destacados
+            {t("title")}
           </h2>
           <p className="mt-1 text-sm text-muted-foreground">
-            Selección de lo que he construido
+            {t("subtitle")}
           </p>
         </div>
         <Link
-          href="/proyectos"
+          href="/projects"
           className="text-sm text-muted-foreground transition-colors hover:text-foreground"
         >
-          Ver todos →
+          {t("viewAll")}
         </Link>
       </div>
 
