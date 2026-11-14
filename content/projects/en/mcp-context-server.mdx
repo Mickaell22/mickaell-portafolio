@@ -1,11 +1,11 @@
 ---
 title: mcp-context-server
 area: fullstack
-description: My own MCP server to index GitHub repositories and query them with AI in natural language. Reduces token usage and speeds up development with compressed context.
-stack: ["Python", "PostgreSQL", "DeepSeek", "Tailscale", "GitPython"]
+description: My own MCP server that indexes your repositories and gives Claude Code only the relevant context, with exact line numbers. On a real query, ~770 tokens instead of ~12,100.
+stack: ["Python", "MCP SDK", "ChromaDB", "PostgreSQL", "DeepSeek"]
 github: "https://github.com/Mickaell22/mcp-context-server"
 demo: ""
-image: "/projects/mcp-context-server/1-terminal.png"
+image: "/projects/mcp-context-server/1-flujo.png"
 featured: true
 date: "2026-05-12"
 role: Proyecto propio
@@ -13,28 +13,34 @@ role: Proyecto propio
 
 ## Context
 
-Working with multiple repositories at once, the AI models' context filled up quickly and the token cost was high. I built my own MCP server that indexes the code and returns only the relevant context for each query.
+Working with several repositories at once, the models' context filled up fast: to understand part of a project, Claude Code read whole files. I built my own MCP server that indexes the code once and returns only what is relevant to each question.
 
 ## How it works
 
-1. The server clones and indexes GitHub repositories (public and private)
-2. Each file is chunked and stored with embeddings in PostgreSQL
-3. When an agent makes a query, the server searches for the most relevant chunks
-4. DeepSeek Flash acts as a preprocessor to compress and filter the context before sending it to the main model
-5. The result: the model receives only what it needs, without noise
+1. It indexes a local repo or clones it from GitHub. Indexing is read-only: it never modifies the project's files
+2. Each file is split by functions, classes or components; embeddings are computed on CPU and stored in ChromaDB
+3. For each question it combines semantic and lexical search to pick the chunks
+4. DeepSeek Flash summarizes them and Claude Code receives the summary with `file:line` citations
+5. On a real query over its own repo: ~770 tokens instead of ~12,100 reading the 4 files in full
+
+Beyond queries it has 13 tools: code audit with a false-positive verification pass, import graph, project profile and detection of stale repos or indexes.
+
+## One machine or several
+
+It runs on a single machine with a local PostgreSQL, or on several pointing to the same database: each machine keeps its own path to each project and its own index, and they share the registry, metrics and import graph.
 
 ## Security
 
-The server operates exclusively over Tailscale — it has no public exposure. The allowed paths are defined in a whitelist in PostgreSQL. It only runs `git clone` as an exception to the filesystem isolation.
+It only indexes whitelisted paths, blocks `.env`, keys and certificates, and respects each repo's `.gitignore`. The GitHub token lives only in memory and is never written to `.git/config`.
 
 ## Real use
 
-This server was used while building this very portfolio to analyze the 58 GitHub repositories and classify them. I also distribute it so other developers can use it in their projects.
+I use it daily with Claude Code across all my projects, and it was used while building this portfolio to analyze the 58 GitHub repositories and classify them.
 
 ## Tech stack
 
-Python for the MCP server. PostgreSQL for the chunk index and the path whitelist. DeepSeek Flash as a preprocessor. GitPython to clone repos. Tailscale for secure access.
+Python with the MCP SDK. ChromaDB for vectors, PostgreSQL for the registry and metrics. `all-MiniLM-L6-v2` embeddings on CPU. DeepSeek Flash to summarize and audit. GitPython to clone and detect changes.
 
 ## Status
 
-Active. In daily use and publicly distributed.
+Active. In daily use and published on GitHub, with an install guide for one or several machines.

@@ -125,7 +125,7 @@ Cada proyecto es un case study en MDX (`content/projects/{es,en}/`) con stack, r
       <br/><sub><code>NestJS</code> <code>PostgreSQL</code> <code>React Native</code></sub>
     </td>
     <td align="center" width="33%">
-      <a href="https://mickaell.novamicktools.com/proyectos/apply-job"><img src="./public/projects/apply-job/1-terminal.png" alt="ApplyJob"></a>
+      <a href="https://mickaell.novamicktools.com/proyectos/apply-job"><img src="./public/projects/apply-job/1-flujo.png" alt="ApplyJob"></a>
       <br/><b>ApplyJob</b>
       <br/><sub>Pipeline que normaliza ofertas de 13 fuentes, las puntúa contra el perfil y genera cartas con un LLM.</sub>
       <br/><sub><code>Python</code> <code>Playwright</code> <code>Anthropic SDK</code></sub>
@@ -151,10 +151,10 @@ Cada proyecto es un case study en MDX (`content/projects/{es,en}/`) con stack, r
       <br/><sub><code>Node.js</code> <code>Prisma</code> <code>PostgreSQL</code></sub>
     </td>
     <td align="center" width="33%">
-      <a href="https://mickaell.novamicktools.com/proyectos/mcp-context-server"><img src="./public/projects/mcp-context-server/1-terminal.png" alt="mcp-context-server"></a>
+      <a href="https://mickaell.novamicktools.com/proyectos/mcp-context-server"><img src="./public/projects/mcp-context-server/1-flujo.png" alt="mcp-context-server"></a>
       <br/><b>mcp-context-server</b>
-      <br/><sub>Servidor MCP que indexa repos y los consulta con IA usando contexto comprimido.</sub>
-      <br/><sub><code>Python</code> <code>PostgreSQL</code> <code>DeepSeek</code></sub>
+      <br/><sub>Servidor MCP que le da a Claude Code solo el contexto relevante: ~770 tokens en vez de ~12.100 en una consulta real.</sub>
+      <br/><sub><code>Python</code> <code>ChromaDB</code> <code>DeepSeek</code></sub>
     </td>
   </tr>
 </table>

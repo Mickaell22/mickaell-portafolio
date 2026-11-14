@@ -1,11 +1,11 @@
 ---
 title: mcp-context-server
 area: fullstack
-description: Servidor MCP propio para indexar repositorios de GitHub y consultarlos con IA por lenguaje natural. Reduce consumo de tokens y acelera el desarrollo con contexto comprimido.
-stack: ["Python", "PostgreSQL", "DeepSeek", "Tailscale", "GitPython"]
+description: Servidor MCP propio que indexa tus repositorios y le da a Claude Code solo el contexto relevante, con las líneas exactas. En una consulta real, ~770 tokens en vez de ~12.100.
+stack: ["Python", "MCP SDK", "ChromaDB", "PostgreSQL", "DeepSeek"]
 github: "https://github.com/Mickaell22/mcp-context-server"
 demo: ""
-image: "/projects/mcp-context-server/1-terminal.png"
+image: "/projects/mcp-context-server/1-flujo.png"
 featured: true
 date: "2026-05-12"
 role: Proyecto propio
@@ -13,28 +13,34 @@ role: Proyecto propio
 
 ## Contexto
 
-Trabajando con múltiples repositorios simultáneamente, el contexto de los modelos de IA se llenaba rápido y el costo de tokens era alto. Construí mi propio servidor MCP que indexa el código y devuelve solo el contexto relevante a cada consulta.
+Trabajando con varios repositorios a la vez, el contexto de los modelos se llenaba rápido: para entender una parte del proyecto, Claude Code leía archivos completos. Construí mi propio servidor MCP que indexa el código una vez y devuelve solo lo relevante a cada pregunta.
 
 ## Cómo funciona
 
-1. El servidor clona e indexa repositorios de GitHub (públicos y privados)
-2. Cada archivo se fragmenta y se almacena con embeddings en PostgreSQL
-3. Cuando un agente hace una consulta, el servidor busca los fragmentos más relevantes
-4. DeepSeek Flash actúa como preprocesador para comprimir y filtrar el contexto antes de enviarlo al modelo principal
-5. El resultado: el modelo recibe solo lo que necesita, sin ruido
+1. Indexa un repo local o lo clona de GitHub. Indexar es de solo lectura: nunca modifica los archivos del proyecto
+2. Cada archivo se parte por funciones, clases o componentes, y los embeddings se calculan en CPU y se guardan en ChromaDB
+3. Ante una pregunta, combina búsqueda semántica y léxica para elegir los fragmentos
+4. DeepSeek Flash los resume y Claude Code recibe el resumen con citas `archivo:linea`
+5. En una consulta real sobre el propio repo: ~770 tokens en vez de ~12.100 leyendo los 4 archivos enteros
+
+Además de consultar, tiene 13 tools: auditoría de código con verificación de falsos positivos, grafo de imports, perfil del proyecto y detección de repos o indices desactualizados.
+
+## Uno o varios equipos
+
+Funciona en un solo equipo con una PostgreSQL local, o en varios apuntando a la misma base: cada equipo guarda su propia ruta de cada proyecto y su propio indice, y comparten el registro, las métricas y el grafo de imports.
 
 ## Seguridad
 
-El servidor opera exclusivamente a través de Tailscale — no tiene exposición pública. Las rutas permitidas están definidas en una whitelist en PostgreSQL. Solo ejecuta `git clone` como excepción al aislamiento de filesystem.
+Solo indexa rutas de una whitelist, bloquea `.env`, llaves y certificados, y respeta el `.gitignore` de cada repo. El token de GitHub viaja solo en memoria y nunca se escribe en `.git/config`.
 
 ## Uso real
 
-Este servidor se usó durante la construcción de este mismo portafolio para analizar los 58 repositorios de GitHub y clasificarlos. También lo distribuyo para que otros desarrolladores lo usen en sus proyectos.
+Lo uso a diario con Claude Code en todos mis proyectos, y se uso durante la construcción de este portafolio para analizar los 58 repositorios de GitHub y clasificarlos.
 
 ## Stack técnico
 
-Python para el servidor MCP. PostgreSQL para el índice de fragmentos y la whitelist de rutas. DeepSeek Flash como preprocesador. GitPython para clonar repos. Tailscale para acceso seguro.
+Python con el SDK de MCP. ChromaDB para los vectores, PostgreSQL para el registro y las métricas. Embeddings `all-MiniLM-L6-v2` en CPU. DeepSeek Flash para resumir y auditar. GitPython para clonar y detectar cambios.
 
 ## Estado
 
-Activo. En uso diario y en distribución pública.
+Activo. En uso diario y publicado en GitHub, con guía de instalación para uno o varios equipos.
